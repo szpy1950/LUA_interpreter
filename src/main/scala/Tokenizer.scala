@@ -1,12 +1,18 @@
 class Tokenizer(string: String) {
   var cursor: Int = 0
 
+  val Spec: List[(String, String)] = List(
+    (null, "^\\s+"),
+    ("NUMBER", "^\\d+"),
+    ("STRING", "^\"[^\"]*\""),
+    ("COMMA", "^,"),
+    ("SEMICOLON", "^;"),
+    ("ASSIGN", "^="),
+    ("NAME", "^[a-zA-Z_][a-zA-Z0-9_]*")
+  )
+
   def hasMoreTokens(): Boolean = {
     cursor < string.length
-  }
-
-  def isEOF(): Boolean = {
-    cursor >= string.length
   }
 
   def getNextToken(): Token = {
@@ -16,28 +22,18 @@ class Tokenizer(string: String) {
 
     val slice = string.substring(cursor)
 
-    // Numbers
-    if (slice(0).isDigit) {
-      var number = ""
-      while (hasMoreTokens() && string(cursor).isDigit) {
-        number = number + string(cursor)
-        cursor = cursor + 1
+    for ((kind, pattern) <- Spec) {
+      val regex = pattern.r
+      val matched = regex.findFirstMatchIn(slice)
+      if (matched.isDefined) {
+        val value = matched.get.matched
+        cursor += value.length
+        kind match {
+          case null => return getNextToken()
+          case "STRING" => return Token(kind, value.substring(1, value.length - 1))
+          case _ => return Token(kind, value)
+        }
       }
-      return Token("NUMBER", number)
-    }
-
-    // Strings
-    if (slice(0) == '"') {
-      var s = ""
-//      s = s + string(cursor)  // start "
-      cursor = cursor + 1
-      while (!isEOF() && string(cursor) != '"') {
-        s = s + string(cursor)
-        cursor = cursor + 1
-      }
-//      s = s + string(cursor)  // end "
-      cursor = cursor + 1
-      return Token("STRING", s)
     }
 
     null

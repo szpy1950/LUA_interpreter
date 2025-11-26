@@ -9,7 +9,51 @@ class Parser() {
   }
 
   def Chunk(): Chunk = {
-    return new Chunk(Exp())
+    return new Chunk(Block())
+  }
+
+  def Block(): Block = {
+    var statements = List[ASTNode]()
+    while (lookahead != null) {
+      statements = statements :+ Stat()
+    }
+    new Block(statements)
+  }
+
+  def Stat(): ASTNode = {
+    lookahead.kind match {
+      case "SEMICOLON" =>
+        eat("SEMICOLON")
+        Stat()
+      case "NAME" =>
+        val vars = VarList()
+        eat("ASSIGN")
+        val exps = ExpList()
+        new Stat(vars, exps)
+    }
+  }
+
+  def VarList(): VarList = {
+    var vars = List(Var())
+    while (lookahead != null && lookahead.kind == "COMMA") {
+      eat("COMMA")
+      vars = vars :+ Var()
+    }
+    new VarList(vars)
+  }
+
+  def Var(): Var = {
+    val token = eat("NAME")
+    new Var(token.value)
+  }
+
+  def ExpList(): ExpList = {
+    var expressions = List(Exp())
+    while (lookahead != null && lookahead.kind == "COMMA") {
+      eat("COMMA")
+      expressions = expressions :+ Exp()
+    }
+    new ExpList(expressions)
   }
 
   def Exp(): ASTNode = {

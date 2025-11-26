@@ -1,2 +1,3 @@
-"hello"
-225
+x = "hello"
+y = 26
+z = "test"
