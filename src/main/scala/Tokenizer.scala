@@ -2,12 +2,85 @@ class Tokenizer(string: String) {
   var cursor: Int = 0
 
   val Spec: List[(String, String)] = List(
+    // skip whitespace
     (null, "^\\s+"),
+
+    // skip comments
+    (null, "^--\\[\\[([\\s\\S]*?)\\]\\]"),
+    (null, "^--[^\\n]*"),
+
+    // keywords
+    ("AND", "^and\\b"),
+    ("BREAK", "^break\\b"),
+    ("DO", "^do\\b"),
+    ("ELSE", "^else\\b"),
+    ("ELSEIF", "^elseif\\b"),
+    ("END", "^end\\b"),
+    ("FALSE", "^false\\b"),
+    ("FOR", "^for\\b"),
+    ("FUNCTION", "^function\\b"),
+    ("GOTO", "^goto\\b"),
+    ("IF", "^if\\b"),
+    ("IN", "^in\\b"),
+    ("LOCAL", "^local\\b"),
+    ("NIL", "^nil\\b"),
+    ("NOT", "^not\\b"),
+    ("OR", "^or\\b"),
+    ("REPEAT", "^repeat\\b"),
+    ("RETURN", "^return\\b"),
+    ("THEN", "^then\\b"),
+    ("TRUE", "^true\\b"),
+    ("UNTIL", "^until\\b"),
+    ("WHILE", "^while\\b"),
+
+    // numbers
+    ("NUMBER", "^\\d+\\.\\d+"),
     ("NUMBER", "^\\d+"),
+
+    // strings
     ("STRING", "^\"[^\"]*\""),
+    ("STRING", "^'[^']*'"),
+
+    // multi char operators
+    ("DOUBLECOLON", "^::"),
+    ("DOTDOTDOT", "^\\.\\.\\."),
+    ("DOTDOT", "^\\.\\."),
+    ("EQ", "^=="),
+    ("NE", "^~="),
+    ("LE", "^<="),
+    ("GE", "^>="),
+    ("SHL", "^<<"),
+    ("SHR", "^>>"),
+    ("FLOORDIV", "^//"),
+
+    // single char operators
+    ("PLUS", "^\\+"),
+    ("MINUS", "^-"),
+    ("STAR", "^\\*"),
+    ("SLASH", "^/"),
+    ("PERCENT", "^%"),
+    ("CARET", "^\\^"),
+    ("HASH", "^#"),
+    ("AMPERSAND", "^&"),
+    ("PIPE", "^\\|"),
+    ("TILDE", "^~"),
+    ("LT", "^<"),
+    ("GT", "^>"),
+    ("ASSIGN", "^="),
+
+    // delimiters
+    ("LPAREN", "^\\("),
+    ("RPAREN", "^\\)"),
+    ("LBRACKET", "^\\["),
+    ("RBRACKET", "^\\]"),
+    ("LBRACE", "^\\{"),
+    ("RBRACE", "^\\}"),
     ("COMMA", "^,"),
     ("SEMICOLON", "^;"),
-    ("ASSIGN", "^="),
+    ("COLON", "^:"),
+    ("DOT", "^\\."),
+
+    // names
     ("NAME", "^[a-zA-Z_][a-zA-Z0-9_]*")
   )
 
@@ -36,6 +109,7 @@ class Tokenizer(string: String) {
       }
     }
 
-    null
+    // no match found
+    throw new Exception(s"Tokenizer error: unexpected character '${slice.head}' at position $cursor")
   }
 }

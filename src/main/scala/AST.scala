@@ -1,94 +1,71 @@
-trait ASTNode {
-  def toJson(indent: Int = 0): String
-}
+import upickle.default.*
 
-case class Chunk(block: Block) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    spaces + "{\n" +
-      spaces + "  \"type\": \"chunk\",\n" +
-      spaces + "  \"block\": " + block.toJson(indent + 1).trim + "\n" +
-      spaces + "}"
-  }
-}
+// root
+case class Chunk(block: Block) derives ReadWriter
 
-case class Block(stat: List[ASTNode]) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    val statJsons = stat.map(s => s.toJson(indent + 1).trim).mkString(",\n" + spaces + "    ")
-    spaces + "{\n" +
-      spaces + "  \"type\": \"block\",\n" +
-      spaces + "  \"stat\": [\n" +
-      spaces + "    " + statJsons + "\n" +
-      spaces + "  ]\n" +
-      spaces + "}"
-  }
-}
+// block contains statements and optional return
+case class Block(stats: List[Stat], retstat: Option[RetStat] = None) derives ReadWriter
 
-case class Stat(varlist: VarList, explist: ExpList) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    spaces + "{\n" +
-      spaces + "  \"type\": \"stat\",\n" +
-      spaces + "  \"varlist\": " + varlist.toJson(indent + 1).trim + ",\n" +
-      spaces + "  \"explist\": " + explist.toJson(indent + 1).trim + "\n" +
-      spaces + "}"
-  }
-}
+// return statement
+case class RetStat(explist: List[Exp]) derives ReadWriter
 
-case class VarList(vars: List[Var]) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    val varJsons = vars.map(v => v.toJson(indent + 1).trim).mkString(",\n" + spaces + "    ")
-    spaces + "{\n" +
-      spaces + "  \"type\": \"varlist\",\n" +
-      spaces + "  \"var\": [\n" +
-      spaces + "    " + varJsons + "\n" +
-      spaces + "  ]\n" +
-      spaces + "}"
-  }
-}
+// all statement types
+sealed trait Stat derives ReadWriter
 
-case class Var(name: String) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    spaces + "{\n" +
-      spaces + "  \"type\": \"var\",\n" +
-      spaces + "  \"name\": \"" + name + "\"\n" +
-      spaces + "}"
-  }
-}
+case class AssignStat(varlist: List[Var], explist: List[Exp]) extends Stat
+case class FunctionCallStat(call: FunctionCall) extends Stat
+case class LabelStat(name: String) extends Stat
+case class BreakStat() extends Stat
+case class GotoStat(name: String) extends Stat
+case class DoStat(block: Block) extends Stat
+case class WhileStat(condition: Exp, block: Block) extends Stat
+case class RepeatStat(block: Block, condition: Exp) extends Stat
+case class IfStat(condition: Exp, thenBlock: Block, elseifs: List[ElseIf], elseBlock: Option[Block]) extends Stat
+case class ForNumStat(name: String, start: Exp, end: Exp, step: Option[Exp], block: Block) extends Stat
+case class ForInStat(names: List[String], explist: List[Exp], block: Block) extends Stat
+case class FunctionStat(name: FuncName, body: FuncBody) extends Stat
+case class LocalFunctionStat(name: String, body: FuncBody) extends Stat
+case class LocalStat(names: List[String], explist: List[Exp]) extends Stat
 
-case class ExpList(expressions: List[ASTNode]) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    val expJsons = expressions.map(e => e.toJson(indent + 1).trim).mkString(",\n" + spaces + "    ")
-    spaces + "{\n" +
-      spaces + "  \"type\": \"explist\",\n" +
-      spaces + "  \"exp\": [\n" +
-      spaces + "    " + expJsons + "\n" +
-      spaces + "  ]\n" +
-      spaces + "}"
-  }
-}
+// helper for if elseif
+case class ElseIf(condition: Exp, block: Block) derives ReadWriter
 
+// function name like foo.bar:baz
+case class FuncName(names: List[String], method: Option[String]) derives ReadWriter
 
-case class LiteralString(value: String) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    spaces + "{\n" +
-      spaces + "  \"type\": \"LiteralString\",\n" +
-      spaces + "  \"value\": \"" + value + "\"\n" +
-      spaces + "}"
-  }
-}
+// function body
+case class FuncBody(params: List[String], vararg: Boolean, block: Block) derives ReadWriter
 
-case class Numeral(value: Int) extends ASTNode {
-  def toJson(indent: Int = 0): String = {
-    val spaces = "  " * indent
-    spaces + "{\n" +
-      spaces + "  \"type\": \"Numeral\",\n" +
-      spaces + "  \"value\": " + value + "\n" +
-      spaces + "}"
-  }
-}
+// function call
+case class FunctionCall(prefix: Exp, method: Option[String], args: List[Exp]) derives ReadWriter
+
+// all variable types
+sealed trait Var derives ReadWriter
+
+case class NameVar(name: String) extends Var
+case class IndexVar(prefix: Exp, index: Exp) extends Var
+case class DotVar(prefix: Exp, name: String) extends Var
+
+// all expression types
+sealed trait Exp derives ReadWriter
+
+case class NilExp() extends Exp
+case class FalseExp() extends Exp
+case class TrueExp() extends Exp
+case class Numeral(value: String) extends Exp
+case class LiteralString(value: String) extends Exp
+case class VarargExp() extends Exp
+case class FunctionDefExp(body: FuncBody) extends Exp
+case class VarExp(v: Var) extends Exp
+case class FunctionCallExp(call: FunctionCall) extends Exp
+case class ParenExp(exp: Exp) extends Exp
+case class TableConstructor(fields: List[Field]) extends Exp
+case class BinopExp(left: Exp, op: String, right: Exp) extends Exp
+case class UnopExp(op: String, exp: Exp) extends Exp
+
+// table field
+sealed trait Field derives ReadWriter
+
+case class ExpKeyField(key: Exp, value: Exp) extends Field
+case class NameKeyField(name: String, value: Exp) extends Field
+case class ValueField(value: Exp) extends Field

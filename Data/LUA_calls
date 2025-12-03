@@ -1,0 +1,38 @@
+chunk: block
+
+block: stat, retstat
+
+stat: varlist, explist, functioncall, label, exp, block, funcname, funcbody, attnamelist
+
+retstat: explist
+
+varlist: var
+
+var: prefixexp, exp
+
+explist: exp
+
+exp: prefixexp, tableconstructor, exp
+
+prefixexp: var, functioncall, exp
+
+functioncall: prefixexp, args
+
+args: explist, tableconstructor
+
+funcbody: parlist, block
+
+parlist: namelist
+
+tableconstructor: fieldlist
+
+fieldlist: field
+
+field: exp
+
+
+loops:
+exp / prefixexp
+functioncall / prefixexp
+stat / block
+exp / exp
