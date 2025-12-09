@@ -1,0 +1,540 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "LocalStat",
+        "names": [
+          "a"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "5"
+          }
+        ]
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "b"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "10"
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "a + b ="
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              },
+              "op": "+",
+              "right": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "b"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "IfStat",
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "a"
+            }
+          },
+          "op": "<",
+          "right": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "b"
+            }
+          }
+        },
+        "thenBlock": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "a is less than b"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "elseifs": [],
+        "elseBlock": null
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "i"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "$type": "WhileStat",
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "i"
+            }
+          },
+          "op": "<=",
+          "right": {
+            "$type": "Numeral",
+            "value": "3"
+          }
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "i ="
+                  },
+                  {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "i"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "j",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "3"
+        },
+        "step": null,
+        "block": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "j ="
+                  },
+                  {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "j"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "add",
+        "body": {
+          "params": [
+            "x",
+            "y"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "x"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "y"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "add(2,3) ="
+            },
+            {
+              "$type": "FunctionCallExp",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "add"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "Numeral",
+                    "value": "2"
+                  },
+                  {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "t"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "10"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "20"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "30"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "t[1] ="
+            },
+            {
+              "$type": "VarExp",
+              "v": {
+                "$type": "IndexVar",
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "t"
+                  }
+                },
+                "index": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "t[2] ="
+            },
+            {
+              "$type": "VarExp",
+              "v": {
+                "$type": "IndexVar",
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "t"
+                  }
+                },
+                "index": {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "person"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "NameKeyField",
+                "name": "name",
+                "value": {
+                  "$type": "LiteralString",
+                  "value": "Alice"
+                }
+              },
+              {
+                "$type": "NameKeyField",
+                "name": "age",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "25"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "name ="
+            },
+            {
+              "$type": "VarExp",
+              "v": {
+                "$type": "DotVar",
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "person"
+                  }
+                },
+                "name": "name"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "age ="
+            },
+            {
+              "$type": "VarExp",
+              "v": {
+                "$type": "DotVar",
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "person"
+                  }
+                },
+                "name": "age"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "Done!"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

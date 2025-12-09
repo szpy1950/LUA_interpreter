@@ -1,0 +1,29 @@
+{
+  "block": {
+    "stats": [],
+    "retstat": {
+      "explist": [
+        {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "Numeral",
+            "value": "1"
+          },
+          "op": "+",
+          "right": {
+            "$type": "BinopExp",
+            "left": {
+              "$type": "Numeral",
+              "value": "2"
+            },
+            "op": "*",
+            "right": {
+              "$type": "Numeral",
+              "value": "3"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

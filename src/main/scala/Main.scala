@@ -4,34 +4,38 @@ import java.io.{File, PrintWriter}
 
 object Main {
   def main(args: Array[String]): Unit = {
-
     if (args.length == 0) {
-      println("The Lua file is missing")
+      println("Usage: run <file.lua>")
       System.exit(1)
     }
 
-    val luaFilePath = args(0)
-
-    val source = Source.fromFile(luaFilePath)
+    val source = Source.fromFile(args(0))
     val code = source.mkString
     source.close()
 
     val parser = Parser()
     val ast = parser.parse(code)
 
+    // write AST to JSON
     val json = write(ast, indent = 2)
-
-    // get filename without path and change extension to .json
-    val inputFile = new File(luaFilePath)
+    val inputFile = new File(args(0))
     val baseName = inputFile.getName.replaceAll("\\.lua$", "")
     val outputDir = new File("JSON_output")
     outputDir.mkdirs()
     val outputFile = new File(outputDir, baseName + ".json")
-
     val writer = new PrintWriter(outputFile)
     writer.write(json)
     writer.close()
+    println(s"AST written to ${outputFile.getPath}")
+    println()
 
-    println(s"Output written to ${outputFile.getPath}")
+    // run the program
+    val env = Eval.makeGlobalEnv()
+    try {
+      Eval.execBlock(ast.block, env)
+    } catch {
+      case e: EvalError => println(s"Error: ${e.getMessage}")
+      case e: Exception => println(s"Error: ${e.getMessage}")
+    }
   }
 }
