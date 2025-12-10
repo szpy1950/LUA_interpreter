@@ -1,3 +1,5 @@
+// parts created and verified with the assistance from Claude AI
+
 import scala.collection.mutable.ListBuffer
 
 class Parser() {

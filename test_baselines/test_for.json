@@ -1,0 +1,116 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "10"
+        },
+        "step": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "x"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  },
+                  "op": "*",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "ForInStat",
+        "names": [
+          "k",
+          "v"
+        ],
+        "explist": [
+          {
+            "$type": "FunctionCallExp",
+            "call": {
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "pairs"
+                }
+              },
+              "method": null,
+              "args": [
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "t"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "block": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "k"
+                    }
+                  },
+                  {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "v"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,3 +1,5 @@
+// parts created with the assistance from Claude AI
+
 class Tokenizer(string: String) {
   var cursor: Int = 0
 

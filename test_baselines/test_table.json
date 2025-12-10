@@ -1,0 +1,91 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "person"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "NameKeyField",
+                "name": "name",
+                "value": {
+                  "$type": "LiteralString",
+                  "value": "Alice"
+                }
+              },
+              {
+                "$type": "NameKeyField",
+                "name": "age",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "30"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "x"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "VarExp",
+            "v": {
+              "$type": "DotVar",
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "person"
+                }
+              },
+              "name": "name"
+            }
+          }
+        ]
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "y"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "VarExp",
+            "v": {
+              "$type": "IndexVar",
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "person"
+                }
+              },
+              "index": {
+                "$type": "LiteralString",
+                "value": "age"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

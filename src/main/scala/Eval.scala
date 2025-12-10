@@ -1,3 +1,5 @@
+// Parts created and verified with the assistance from Claude AI
+
 import scala.collection.mutable
 
 sealed trait LuaVal {
@@ -73,16 +75,66 @@ object Eval {
       }
   }
 
+  def evalExpList(exps: List[Exp], env: Env): List[LuaVal] = {
+    if (exps.isEmpty) return List()
+
+    val init = exps.init.map(e => eval(e, env))
+    val last = exps.last
+
+    val lastVals = last match {
+      case FunctionCallExp(call) => evalCall(call, env)
+      case VarargExp() =>
+        env.get("...") match {
+          case LuaTable(m) =>
+            var result = List[LuaVal]()
+            var i = 1
+            while (m.contains(LuaNum(i))) {
+              result = result :+ m(LuaNum(i))
+              i += 1
+            }
+            result
+          case _ => List(LuaNil)
+        }
+      case _ => List(eval(last, env))
+    }
+
+    init ++ lastVals
+  }
+
   def evalTable(fields: List[Field], env: Env): LuaTable = {
     val map = mutable.Map[LuaVal, LuaVal]()
     var idx = 1
-    for (f <- fields) {
+    for ((f, fIdx) <- fields.zipWithIndex) {
+      val isLast = fIdx == fields.length - 1
       f match {
         case ExpKeyField(k, v) => map(eval(k, env)) = eval(v, env)
         case NameKeyField(n, v) => map(LuaStr(n)) = eval(v, env)
         case ValueField(v) =>
-          map(LuaNum(idx)) = eval(v, env)
-          idx += 1
+          if (isLast) {
+            val vals = v match {
+              case FunctionCallExp(call) => evalCall(call, env)
+              case VarargExp() =>
+                env.get("...") match {
+                  case LuaTable(m) =>
+                    var result = List[LuaVal]()
+                    var i = 1
+                    while (m.contains(LuaNum(i))) {
+                      result = result :+ m(LuaNum(i))
+                      i += 1
+                    }
+                    result
+                  case _ => List()
+                }
+              case _ => List(eval(v, env))
+            }
+            for (value <- vals) {
+              map(LuaNum(idx)) = value
+              idx += 1
+            }
+          } else {
+            map(LuaNum(idx)) = eval(v, env)
+            idx += 1
+          }
       }
     }
     LuaTable(map)
@@ -127,8 +179,8 @@ object Eval {
     }
 
     val args = call.method match {
-      case Some(_) => eval(call.prefix, env) :: call.args.map(a => eval(a, env))
-      case None => call.args.map(a => eval(a, env))
+      case Some(_) => eval(call.prefix, env) :: evalExpList(call.args, env)
+      case None => evalExpList(call.args, env)
     }
 
     func match {
@@ -181,7 +233,10 @@ object Eval {
         case "*" => LuaNum(toNum(lv) * toNum(rv))
         case "/" => LuaNum(toNum(lv) / toNum(rv))
         case "//" => LuaNum(Math.floor(toNum(lv) / toNum(rv)))
-        case "%" => LuaNum(toNum(lv) % toNum(rv))
+        case "%" =>
+          val a = toNum(lv)
+          val b = toNum(rv)
+          LuaNum(a - Math.floor(a / b) * b)
         case "^" => LuaNum(Math.pow(toNum(lv), toNum(rv)))
         case "<" => LuaBool(compare(lv, rv) < 0)
         case ">" => LuaBool(compare(lv, rv) > 0)
@@ -199,15 +254,22 @@ object Eval {
       }
   }
 
+  def execBlock(block: Block, env: Env): Unit = {
+    for (s <- block.stats) exec(s, env)
+    block.retstat.foreach { ret =>
+      throw new ReturnException(evalExpList(ret.explist, env))
+    }
+  }
+
   def exec(s: Stat, env: Env): Unit = s match {
     case LocalStat(names, exps) =>
-      val vals = exps.map(e => eval(e, env))
+      val vals = evalExpList(exps, env)
       for ((n, i) <- names.zipWithIndex) {
         env.define(n, if (i < vals.length) vals(i) else LuaNil)
       }
 
     case AssignStat(vars, exps) =>
-      val vals = exps.map(e => eval(e, env))
+      val vals = evalExpList(exps, env)
       for ((v, i) <- vars.zipWithIndex) {
         setVar(v, if (i < vals.length) vals(i) else LuaNil, env)
       }
@@ -317,13 +379,6 @@ object Eval {
     case BreakStat() => throw new BreakException()
     case LabelStat(_) =>
     case GotoStat(_) =>
-  }
-
-  def execBlock(block: Block, env: Env): Unit = {
-    for (s <- block.stats) exec(s, env)
-    block.retstat.foreach { ret =>
-      throw new ReturnException(ret.explist.map(e => eval(e, env)))
-    }
   }
 
   def isTruthy(v: LuaVal): Boolean = v match {

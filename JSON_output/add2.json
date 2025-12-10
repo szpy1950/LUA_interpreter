@@ -1,0 +1,81 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "FunctionStat",
+        "name": {
+          "names": [
+            "add2"
+          ],
+          "method": null
+        },
+        "body": {
+          "params": [
+            "x"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "x"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "5 + 2 = "
+            },
+            {
+              "$type": "FunctionCallExp",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "add2"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "Numeral",
+                    "value": "5"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

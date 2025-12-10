@@ -1,0 +1,58 @@
+LuaVAl:
+
+- nil
+- bool
+- num
+- setr
+- table
+- func
+
+----> BUILTIN
+
+
+
+show
+get
+set
+define
+child
+
+Eval:
+
+eval
+evalexplist
+evaltable
+evalvar
+setvar
+evalcall
+evalunop
+evalbinop
+exec
+execblock
+
+istruthy
+tonum
+tostr
+compare
+isequal
+
+makeglobalenv
+
+builtin
+- print
+- type
+- tonumber
+- tostring
+- error
+
+Generated:
+- assert
+- pairs
+- ipairs
+- next
+- select
+- pcall
+- rawget
+- rawset
+- setmetatable
+- getmetatable

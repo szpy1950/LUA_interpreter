@@ -1,0 +1,78 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "x"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "10"
+          }
+        ]
+      },
+      {
+        "$type": "IfStat",
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "x"
+            }
+          },
+          "op": ">",
+          "right": {
+            "$type": "Numeral",
+            "value": "5"
+          }
+        },
+        "thenBlock": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "y"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "LiteralString",
+                  "value": "big"
+                }
+              ]
+            }
+          ]
+        },
+        "elseifs": [],
+        "elseBlock": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "y"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "LiteralString",
+                  "value": "small"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

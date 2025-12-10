@@ -1,0 +1,6577 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "=== ADAPTED OFFICIAL TESTS ==="
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "passed"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "failed"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "test",
+        "body": {
+          "params": [
+            "name",
+            "condition"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "IfStat",
+                "condition": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "condition"
+                  }
+                },
+                "thenBlock": {
+                  "stats": [
+                    {
+                      "$type": "FunctionCallStat",
+                      "call": {
+                        "prefix": {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "print"
+                          }
+                        },
+                        "method": null,
+                        "args": [
+                          {
+                            "$type": "BinopExp",
+                            "left": {
+                              "$type": "LiteralString",
+                              "value": "[PASS] "
+                            },
+                            "op": "..",
+                            "right": {
+                              "$type": "VarExp",
+                              "v": {
+                                "$type": "NameVar",
+                                "name": "name"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "$type": "AssignStat",
+                      "varlist": [
+                        {
+                          "$type": "NameVar",
+                          "name": "passed"
+                        }
+                      ],
+                      "explist": [
+                        {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "passed"
+                            }
+                          },
+                          "op": "+",
+                          "right": {
+                            "$type": "Numeral",
+                            "value": "1"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "elseifs": [],
+                "elseBlock": {
+                  "stats": [
+                    {
+                      "$type": "FunctionCallStat",
+                      "call": {
+                        "prefix": {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "print"
+                          }
+                        },
+                        "method": null,
+                        "args": [
+                          {
+                            "$type": "BinopExp",
+                            "left": {
+                              "$type": "LiteralString",
+                              "value": "[FAIL] "
+                            },
+                            "op": "..",
+                            "right": {
+                              "$type": "VarExp",
+                              "v": {
+                                "$type": "NameVar",
+                                "name": "name"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "$type": "AssignStat",
+                      "varlist": [
+                        {
+                          "$type": "NameVar",
+                          "name": "failed"
+                        }
+                      ],
+                      "explist": [
+                        {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "failed"
+                            }
+                          },
+                          "op": "+",
+                          "right": {
+                            "$type": "Numeral",
+                            "value": "1"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Operator Priorities (from constructs.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "power right-associative: 2^3^2 == 512"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "2"
+                },
+                "op": "^",
+                "right": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  },
+                  "op": "^",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "512"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "power before mult: 2^3*4 == 32"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  },
+                  "op": "^",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                },
+                "op": "*",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "4"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "32"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "negative power: 2.0^-2 == 0.25"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "2.0"
+                },
+                "op": "^",
+                "right": {
+                  "$type": "UnopExp",
+                  "op": "-",
+                  "exp": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0.25"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "logical: not nil and 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "not",
+                "exp": {
+                  "$type": "NilExp"
+                }
+              },
+              "op": "and",
+              "right": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "2"
+                },
+                "op": "==",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "comparison: not(2>3 or 3<2)"
+            },
+            {
+              "$type": "UnopExp",
+              "op": "not",
+              "exp": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    "op": ">",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "3"
+                    }
+                  },
+                  "op": "or",
+                  "right": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "Numeral",
+                      "value": "3"
+                    },
+                    "op": "<",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "subtraction chain: -3-1-5 == -9"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "UnopExp",
+                    "op": "-",
+                    "exp": {
+                      "$type": "Numeral",
+                      "value": "3"
+                    }
+                  },
+                  "op": "-",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "op": "-",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "5"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "Numeral",
+                  "value": "9"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "unary minus with power: -2^2 == -4"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  },
+                  "op": "^",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "Numeral",
+                  "value": "4"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "parenthesized: (-2)^2 == 4"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "ParenExp",
+                  "exp": {
+                    "$type": "UnopExp",
+                    "op": "-",
+                    "exp": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  }
+                },
+                "op": "^",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "mixed arithmetic: 2*2-3-1 == 0"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    "op": "*",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  },
+                  "op": "-",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                },
+                "op": "-",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "modulo negative: -3%5 == 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "UnopExp",
+                  "op": "-",
+                  "exp": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                },
+                "op": "%",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "5"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "concat with arith: 1+2 .. 3*1 == '33'"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                },
+                "op": "..",
+                "right": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  },
+                  "op": "*",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "33"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "old bug 1: (((1 or false) and true) or false) == true"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "ParenExp",
+                    "exp": {
+                      "$type": "BinopExp",
+                      "left": {
+                        "$type": "ParenExp",
+                        "exp": {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "Numeral",
+                            "value": "1"
+                          },
+                          "op": "or",
+                          "right": {
+                            "$type": "FalseExp"
+                          }
+                        }
+                      },
+                      "op": "and",
+                      "right": {
+                        "$type": "TrueExp"
+                      }
+                    }
+                  },
+                  "op": "or",
+                  "right": {
+                    "$type": "FalseExp"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "TrueExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "old bug 2: (((nil and true) or false) and true) == false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "ParenExp",
+                    "exp": {
+                      "$type": "BinopExp",
+                      "left": {
+                        "$type": "ParenExp",
+                        "exp": {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "NilExp"
+                          },
+                          "op": "and",
+                          "right": {
+                            "$type": "TrueExp"
+                          }
+                        }
+                      },
+                      "op": "or",
+                      "right": {
+                        "$type": "FalseExp"
+                      }
+                    }
+                  },
+                  "op": "and",
+                  "right": {
+                    "$type": "TrueExp"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "a",
+          "b"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "1"
+          },
+          {
+            "$type": "NilExp"
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "short-circuit 1: -(1 or 2) == -1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "ParenExp",
+                  "exp": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    "op": "or",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "short-circuit 2: (1 and 2)+(-1.25 or -4) == 0.75"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "ParenExp",
+                  "exp": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    "op": "and",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  }
+                },
+                "op": "+",
+                "right": {
+                  "$type": "ParenExp",
+                  "exp": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "UnopExp",
+                      "op": "-",
+                      "exp": {
+                        "$type": "Numeral",
+                        "value": "1.25"
+                      }
+                    },
+                    "op": "or",
+                    "right": {
+                      "$type": "UnopExp",
+                      "op": "-",
+                      "exp": {
+                        "$type": "Numeral",
+                        "value": "4"
+                      }
+                    }
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0.75"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "tonumber: 1234567890"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "Numeral",
+                "value": "1234567890"
+              },
+              "op": "==",
+              "right": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "tonumber"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "LiteralString",
+                      "value": "1234567890"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "large number +1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "1234567890"
+                },
+                "op": "+",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1234567891"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Control Structures (from constructs.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "a"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "WhileStat",
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "a"
+            }
+          },
+          "op": "<",
+          "right": {
+            "$type": "Numeral",
+            "value": "10"
+          }
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "a"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "while loop counts to 10"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "10"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "a"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "RepeatStat",
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "a"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "a"
+            }
+          },
+          "op": ">=",
+          "right": {
+            "$type": "Numeral",
+            "value": "5"
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "repeat-until counts to 5"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "5"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "sum"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "10"
+        },
+        "step": null,
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sum"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "for 1 to 10 sum = 55"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "55"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "sum"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "10"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "step": {
+          "$type": "UnopExp",
+          "op": "-",
+          "exp": {
+            "$type": "Numeral",
+            "value": "1"
+          }
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sum"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "for 10 to 1 step -1 sum = 55"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "55"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "count"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "3"
+        },
+        "step": null,
+        "block": {
+          "stats": [
+            {
+              "$type": "ForNumStat",
+              "name": "j",
+              "start": {
+                "$type": "Numeral",
+                "value": "1"
+              },
+              "end": {
+                "$type": "Numeral",
+                "value": "3"
+              },
+              "step": null,
+              "block": {
+                "stats": [
+                  {
+                    "$type": "AssignStat",
+                    "varlist": [
+                      {
+                        "$type": "NameVar",
+                        "name": "count"
+                      }
+                    ],
+                    "explist": [
+                      {
+                        "$type": "BinopExp",
+                        "left": {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "count"
+                          }
+                        },
+                        "op": "+",
+                        "right": {
+                          "$type": "Numeral",
+                          "value": "1"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "nested for 3x3 = 9"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "count"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "9"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "a"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "WhileStat",
+        "condition": {
+          "$type": "TrueExp"
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "a"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "IfStat",
+              "condition": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "a"
+                  }
+                },
+                "op": ">=",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "7"
+                }
+              },
+              "thenBlock": {
+                "stats": [
+                  {
+                    "$type": "BreakStat"
+                  }
+                ]
+              },
+              "elseifs": [],
+              "elseBlock": null
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "while with break at 7"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "a"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "7"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "sum"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "100"
+        },
+        "step": null,
+        "block": {
+          "stats": [
+            {
+              "$type": "IfStat",
+              "condition": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "i"
+                  }
+                },
+                "op": ">",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "5"
+                }
+              },
+              "thenBlock": {
+                "stats": [
+                  {
+                    "$type": "BreakStat"
+                  }
+                ]
+              },
+              "elseifs": [],
+              "elseBlock": null
+            },
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sum"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "for with break: 1+2+3+4+5 = 15"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "sum"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "15"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Function Calls (from calls.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "f",
+        "body": {
+          "params": [
+            "a",
+            "b"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "a"
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "b"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "basic function f(1,2) = 3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "f"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "extra args ignored: f(1,2,3) = 3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "f"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "3"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "g",
+        "body": {
+          "params": [
+            "a",
+            "b",
+            "c"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "a"
+                  }
+                },
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "b"
+                  }
+                },
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "c"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "x",
+          "y",
+          "z"
+        ],
+        "explist": [
+          {
+            "$type": "FunctionCallExp",
+            "call": {
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "g"
+                }
+              },
+              "method": null,
+              "args": [
+                {
+                  "$type": "Numeral",
+                  "value": "1"
+                },
+                {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "missing arg is nil"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "x"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "op": "and",
+                "right": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "y"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "and",
+              "right": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "z"
+                  }
+                },
+                "op": "==",
+                "right": {
+                  "$type": "NilExp"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "fac",
+        "body": {
+          "params": [
+            "n"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "IfStat",
+                "condition": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "n"
+                    }
+                  },
+                  "op": "<=",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "thenBlock": {
+                  "stats": [],
+                  "retstat": {
+                    "explist": [
+                      {
+                        "$type": "Numeral",
+                        "value": "1"
+                      }
+                    ]
+                  }
+                },
+                "elseifs": [],
+                "elseBlock": null
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "n"
+                    }
+                  },
+                  "op": "*",
+                  "right": {
+                    "$type": "FunctionCallExp",
+                    "call": {
+                      "prefix": {
+                        "$type": "VarExp",
+                        "v": {
+                          "$type": "NameVar",
+                          "name": "fac"
+                        }
+                      },
+                      "method": null,
+                      "args": [
+                        {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "n"
+                            }
+                          },
+                          "op": "-",
+                          "right": {
+                            "$type": "Numeral",
+                            "value": "1"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "factorial(5) = 120"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "fac"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "120"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "factorial(0) = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "fac"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "0"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "odd",
+          "even"
+        ],
+        "explist": []
+      },
+      {
+        "$type": "FunctionStat",
+        "name": {
+          "names": [
+            "even"
+          ],
+          "method": null
+        },
+        "body": {
+          "params": [
+            "n"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "IfStat",
+                "condition": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "n"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "0"
+                  }
+                },
+                "thenBlock": {
+                  "stats": [],
+                  "retstat": {
+                    "explist": [
+                      {
+                        "$type": "TrueExp"
+                      }
+                    ]
+                  }
+                },
+                "elseifs": [],
+                "elseBlock": null
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "FunctionCallExp",
+                  "call": {
+                    "prefix": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "odd"
+                      }
+                    },
+                    "method": null,
+                    "args": [
+                      {
+                        "$type": "BinopExp",
+                        "left": {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "n"
+                          }
+                        },
+                        "op": "-",
+                        "right": {
+                          "$type": "Numeral",
+                          "value": "1"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionStat",
+        "name": {
+          "names": [
+            "odd"
+          ],
+          "method": null
+        },
+        "body": {
+          "params": [
+            "n"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "IfStat",
+                "condition": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "n"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "0"
+                  }
+                },
+                "thenBlock": {
+                  "stats": [],
+                  "retstat": {
+                    "explist": [
+                      {
+                        "$type": "FalseExp"
+                      }
+                    ]
+                  }
+                },
+                "elseifs": [],
+                "elseBlock": null
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "FunctionCallExp",
+                  "call": {
+                    "prefix": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "even"
+                      }
+                    },
+                    "method": null,
+                    "args": [
+                      {
+                        "$type": "BinopExp",
+                        "left": {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "n"
+                          }
+                        },
+                        "op": "-",
+                        "right": {
+                          "$type": "Numeral",
+                          "value": "1"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "even(10) = true"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "even"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "TrueExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "odd(10) = false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "odd"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "even(7) = false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "even"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "7"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "odd(7) = true"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "odd"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "7"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "TrueExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Closures (from closure.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "counter",
+        "body": {
+          "params": [],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "LocalStat",
+                "names": [
+                  "n"
+                ],
+                "explist": [
+                  {
+                    "$type": "Numeral",
+                    "value": "0"
+                  }
+                ]
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "FunctionDefExp",
+                  "body": {
+                    "params": [],
+                    "vararg": false,
+                    "block": {
+                      "stats": [
+                        {
+                          "$type": "AssignStat",
+                          "varlist": [
+                            {
+                              "$type": "NameVar",
+                              "name": "n"
+                            }
+                          ],
+                          "explist": [
+                            {
+                              "$type": "BinopExp",
+                              "left": {
+                                "$type": "VarExp",
+                                "v": {
+                                  "$type": "NameVar",
+                                  "name": "n"
+                                }
+                              },
+                              "op": "+",
+                              "right": {
+                                "$type": "Numeral",
+                                "value": "1"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "retstat": {
+                        "explist": [
+                          {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "n"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "c"
+        ],
+        "explist": [
+          {
+            "$type": "FunctionCallExp",
+            "call": {
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "counter"
+                }
+              },
+              "method": null,
+              "args": []
+            }
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "closure counter() = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "closure counter() = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "closure counter() = 3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "c1"
+        ],
+        "explist": [
+          {
+            "$type": "FunctionCallExp",
+            "call": {
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "counter"
+                }
+              },
+              "method": null,
+              "args": []
+            }
+          }
+        ]
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "c2"
+        ],
+        "explist": [
+          {
+            "$type": "FunctionCallExp",
+            "call": {
+              "prefix": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "counter"
+                }
+              },
+              "method": null,
+              "args": []
+            }
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "independent closure c1 = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c1"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "independent closure c2 = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c2"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "independent closure c1 = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c1"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "independent closure c2 = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "c2"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "funcs"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": []
+          }
+        ]
+      },
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "3"
+        },
+        "step": null,
+        "block": {
+          "stats": [
+            {
+              "$type": "AssignStat",
+              "varlist": [
+                {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "funcs"
+                    }
+                  },
+                  "index": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  }
+                }
+              ],
+              "explist": [
+                {
+                  "$type": "FunctionDefExp",
+                  "body": {
+                    "params": [],
+                    "vararg": false,
+                    "block": {
+                      "stats": [],
+                      "retstat": {
+                        "explist": [
+                          {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "i"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Local Variables (from locals.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "x"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "10"
+          }
+        ]
+      },
+      {
+        "$type": "DoStat",
+        "block": {
+          "stats": [
+            {
+              "$type": "LocalStat",
+              "names": [
+                "x"
+              ],
+              "explist": [
+                {
+                  "$type": "Numeral",
+                  "value": "20"
+                }
+              ]
+            },
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "test"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "inner scope x = 20"
+                  },
+                  {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "x"
+                      }
+                    },
+                    "op": "==",
+                    "right": {
+                      "$type": "Numeral",
+                      "value": "20"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "outer scope x = 10"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "x"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "10"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "a",
+          "b",
+          "c"
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "1"
+          },
+          {
+            "$type": "Numeral",
+            "value": "2"
+          },
+          {
+            "$type": "Numeral",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "multiple locals"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "a"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "op": "and",
+                "right": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "b"
+                    }
+                  },
+                  "op": "==",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "and",
+              "right": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "c"
+                  }
+                },
+                "op": "==",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "shadow"
+        ],
+        "explist": [
+          {
+            "$type": "LiteralString",
+            "value": "outer"
+          }
+        ]
+      },
+      {
+        "$type": "DoStat",
+        "block": {
+          "stats": [
+            {
+              "$type": "LocalStat",
+              "names": [
+                "shadow"
+              ],
+              "explist": [
+                {
+                  "$type": "LiteralString",
+                  "value": "inner"
+                }
+              ]
+            },
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "test"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "shadow inner"
+                  },
+                  {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "shadow"
+                      }
+                    },
+                    "op": "==",
+                    "right": {
+                      "$type": "LiteralString",
+                      "value": "inner"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "shadow outer restored"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "NameVar",
+                  "name": "shadow"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "outer"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "localfn",
+        "body": {
+          "params": [],
+          "vararg": false,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "LiteralString",
+                  "value": "local"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "local function"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "localfn"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "local"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Tables (from nextvar.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "t"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": []
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "empty table length = 0"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "#",
+                "exp": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "t"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "t"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "10"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "20"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "30"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "array t[1] = 10"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "t"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "10"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "array t[2] = 20"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "t"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "20"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "array t[3] = 30"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "t"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "30"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "array length = 3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "#",
+                "exp": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "t"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "d"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "NameKeyField",
+                "name": "x",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              },
+              {
+                "$type": "NameKeyField",
+                "name": "y",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              },
+              {
+                "$type": "NameKeyField",
+                "name": "z",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "dict d.x = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "DotVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "d"
+                    }
+                  },
+                  "name": "x"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "dict d['y'] = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "d"
+                    }
+                  },
+                  "index": {
+                    "$type": "LiteralString",
+                    "value": "y"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "m"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "100"
+                }
+              },
+              {
+                "$type": "NameKeyField",
+                "name": "x",
+                "value": {
+                  "$type": "LiteralString",
+                  "value": "hello"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "200"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "mixed m[1] = 100"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "m"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "100"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "mixed m[2] = 200"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "m"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "200"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "mixed m.x = 'hello'"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "DotVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "m"
+                    }
+                  },
+                  "name": "x"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "hello"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "k"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "ExpKeyField",
+                "key": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "value": {
+                  "$type": "LiteralString",
+                  "value": "two"
+                }
+              },
+              {
+                "$type": "ExpKeyField",
+                "key": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  },
+                  "op": "+",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                },
+                "value": {
+                  "$type": "LiteralString",
+                  "value": "three"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "computed key k[2] = 'two'"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "k"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "two"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "computed key k[3] = 'three'"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "k"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "3"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "three"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalStat",
+        "names": [
+          "n"
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "NameKeyField",
+                "name": "inner",
+                "value": {
+                  "$type": "TableConstructor",
+                  "fields": [
+                    {
+                      "$type": "NameKeyField",
+                      "name": "value",
+                      "value": {
+                        "$type": "Numeral",
+                        "value": "42"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "nested n.inner.value = 42"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "DotVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "DotVar",
+                      "prefix": {
+                        "$type": "VarExp",
+                        "v": {
+                          "$type": "NameVar",
+                          "name": "n"
+                        }
+                      },
+                      "name": "inner"
+                    }
+                  },
+                  "name": "value"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "42"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "NameVar",
+            "name": "t"
+          }
+        ],
+        "explist": [
+          {
+            "$type": "TableConstructor",
+            "fields": [
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "1"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "2"
+                }
+              },
+              {
+                "$type": "ValueField",
+                "value": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "IndexVar",
+            "prefix": {
+              "$type": "VarExp",
+              "v": {
+                "$type": "NameVar",
+                "name": "t"
+              }
+            },
+            "index": {
+              "$type": "Numeral",
+              "value": "4"
+            }
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "4"
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "table add element"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "t"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "4"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "AssignStat",
+        "varlist": [
+          {
+            "$type": "IndexVar",
+            "prefix": {
+              "$type": "VarExp",
+              "v": {
+                "$type": "NameVar",
+                "name": "t"
+              }
+            },
+            "index": {
+              "$type": "Numeral",
+              "value": "2"
+            }
+          }
+        ],
+        "explist": [
+          {
+            "$type": "Numeral",
+            "value": "20"
+          }
+        ]
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "table modify element"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "VarExp",
+                "v": {
+                  "$type": "IndexVar",
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "t"
+                    }
+                  },
+                  "index": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "20"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "sumtable",
+        "body": {
+          "params": [
+            "tbl"
+          ],
+          "vararg": false,
+          "block": {
+            "stats": [
+              {
+                "$type": "LocalStat",
+                "names": [
+                  "s"
+                ],
+                "explist": [
+                  {
+                    "$type": "Numeral",
+                    "value": "0"
+                  }
+                ]
+              },
+              {
+                "$type": "ForNumStat",
+                "name": "i",
+                "start": {
+                  "$type": "Numeral",
+                  "value": "1"
+                },
+                "end": {
+                  "$type": "UnopExp",
+                  "op": "#",
+                  "exp": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "tbl"
+                    }
+                  }
+                },
+                "step": null,
+                "block": {
+                  "stats": [
+                    {
+                      "$type": "AssignStat",
+                      "varlist": [
+                        {
+                          "$type": "NameVar",
+                          "name": "s"
+                        }
+                      ],
+                      "explist": [
+                        {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "s"
+                            }
+                          },
+                          "op": "+",
+                          "right": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "IndexVar",
+                              "prefix": {
+                                "$type": "VarExp",
+                                "v": {
+                                  "$type": "NameVar",
+                                  "name": "tbl"
+                                }
+                              },
+                              "index": {
+                                "$type": "VarExp",
+                                "v": {
+                                  "$type": "NameVar",
+                                  "name": "i"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "s"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "sum table {1,2,3,4} = 10"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sumtable"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "TableConstructor",
+                      "fields": [
+                        {
+                          "$type": "ValueField",
+                          "value": {
+                            "$type": "Numeral",
+                            "value": "1"
+                          }
+                        },
+                        {
+                          "$type": "ValueField",
+                          "value": {
+                            "$type": "Numeral",
+                            "value": "2"
+                          }
+                        },
+                        {
+                          "$type": "ValueField",
+                          "value": {
+                            "$type": "Numeral",
+                            "value": "3"
+                          }
+                        },
+                        {
+                          "$type": "ValueField",
+                          "value": {
+                            "$type": "Numeral",
+                            "value": "4"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "10"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Varargs (from vararg.lua) ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "countargs",
+        "body": {
+          "params": [],
+          "vararg": true,
+          "block": {
+            "stats": [
+              {
+                "$type": "LocalStat",
+                "names": [
+                  "args"
+                ],
+                "explist": [
+                  {
+                    "$type": "TableConstructor",
+                    "fields": [
+                      {
+                        "$type": "ValueField",
+                        "value": {
+                          "$type": "VarargExp"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "UnopExp",
+                  "op": "#",
+                  "exp": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "args"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "countargs(1,2,3) = 3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "countargs"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "3"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "countargs() = 0"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "countargs"
+                    }
+                  },
+                  "method": null,
+                  "args": []
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "countargs(1,2,3,4,5) = 5"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "countargs"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "3"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "4"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "5"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "sumargs",
+        "body": {
+          "params": [],
+          "vararg": true,
+          "block": {
+            "stats": [
+              {
+                "$type": "LocalStat",
+                "names": [
+                  "args"
+                ],
+                "explist": [
+                  {
+                    "$type": "TableConstructor",
+                    "fields": [
+                      {
+                        "$type": "ValueField",
+                        "value": {
+                          "$type": "VarargExp"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "$type": "LocalStat",
+                "names": [
+                  "s"
+                ],
+                "explist": [
+                  {
+                    "$type": "Numeral",
+                    "value": "0"
+                  }
+                ]
+              },
+              {
+                "$type": "ForNumStat",
+                "name": "i",
+                "start": {
+                  "$type": "Numeral",
+                  "value": "1"
+                },
+                "end": {
+                  "$type": "UnopExp",
+                  "op": "#",
+                  "exp": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "args"
+                    }
+                  }
+                },
+                "step": null,
+                "block": {
+                  "stats": [
+                    {
+                      "$type": "AssignStat",
+                      "varlist": [
+                        {
+                          "$type": "NameVar",
+                          "name": "s"
+                        }
+                      ],
+                      "explist": [
+                        {
+                          "$type": "BinopExp",
+                          "left": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "NameVar",
+                              "name": "s"
+                            }
+                          },
+                          "op": "+",
+                          "right": {
+                            "$type": "VarExp",
+                            "v": {
+                              "$type": "IndexVar",
+                              "prefix": {
+                                "$type": "VarExp",
+                                "v": {
+                                  "$type": "NameVar",
+                                  "name": "args"
+                                }
+                              },
+                              "index": {
+                                "$type": "VarExp",
+                                "v": {
+                                  "$type": "NameVar",
+                                  "name": "i"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "s"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "sumargs(1,2,3) = 6"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sumargs"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "3"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "6"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "sumargs(10,20,30,40) = 100"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "sumargs"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "10"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "20"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "30"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "40"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "100"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "LocalFunctionStat",
+        "name": "forward",
+        "body": {
+          "params": [],
+          "vararg": true,
+          "block": {
+            "stats": [],
+            "retstat": {
+              "explist": [
+                {
+                  "$type": "FunctionCallExp",
+                  "call": {
+                    "prefix": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "countargs"
+                      }
+                    },
+                    "method": null,
+                    "args": [
+                      {
+                        "$type": "VarargExp"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "forward(1,2,3,4) = 4"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FunctionCallExp",
+                "call": {
+                  "prefix": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "forward"
+                    }
+                  },
+                  "method": null,
+                  "args": [
+                    {
+                      "$type": "Numeral",
+                      "value": "1"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "2"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "3"
+                    },
+                    {
+                      "$type": "Numeral",
+                      "value": "4"
+                    }
+                  ]
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "4"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Arithmetic Edge Cases ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "floor div: 7 // 3 = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "7"
+                },
+                "op": "//",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "floor div negative: -7 // 3 = -3"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "UnopExp",
+                  "op": "-",
+                  "exp": {
+                    "$type": "Numeral",
+                    "value": "7"
+                  }
+                },
+                "op": "//",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "UnopExp",
+                "op": "-",
+                "exp": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "modulo: 7 % 3 = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "7"
+                },
+                "op": "%",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "modulo negative: -7 % 3 = 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "UnopExp",
+                  "op": "-",
+                  "exp": {
+                    "$type": "Numeral",
+                    "value": "7"
+                  }
+                },
+                "op": "%",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "3"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "power: 2^10 = 1024"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "2"
+                },
+                "op": "^",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "10"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1024"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "power of 0: 0^0 = 1"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "0"
+                },
+                "op": "^",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "0"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "power negative exp: 2^-1 = 0.5"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "Numeral",
+                  "value": "2"
+                },
+                "op": "^",
+                "right": {
+                  "$type": "UnopExp",
+                  "op": "-",
+                  "exp": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "0.5"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Comparison Edge Cases ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "equal numbers"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "Numeral",
+                "value": "1"
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1.0"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "string comparison lt"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "LiteralString",
+                "value": "a"
+              },
+              "op": "<",
+              "right": {
+                "$type": "LiteralString",
+                "value": "b"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "string comparison gt"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "LiteralString",
+                "value": "b"
+              },
+              "op": ">",
+              "right": {
+                "$type": "LiteralString",
+                "value": "a"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "string comparison eq"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "LiteralString",
+                "value": "hello"
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "hello"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "nil == nil"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "NilExp"
+              },
+              "op": "==",
+              "right": {
+                "$type": "NilExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "false ~= nil"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "FalseExp"
+              },
+              "op": "~=",
+              "right": {
+                "$type": "NilExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "0 ~= false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "Numeral",
+                "value": "0"
+              },
+              "op": "~=",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "'' ~= false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "LiteralString",
+                "value": ""
+              },
+              "op": "~=",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "--- Logical Operators Edge Cases ---"
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "and returns first falsy"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "NilExp"
+                  },
+                  "op": "and",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "NilExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "and returns first falsy 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "FalseExp"
+                  },
+                  "op": "and",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "and returns second if first truthy"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  },
+                  "op": "and",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "or returns first truthy"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "Numeral",
+                    "value": "1"
+                  },
+                  "op": "or",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "or returns second if first falsy"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "NilExp"
+                  },
+                  "op": "or",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "Numeral",
+                "value": "2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "or returns second if first falsy 2"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "ParenExp",
+                "exp": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "FalseExp"
+                  },
+                  "op": "or",
+                  "right": {
+                    "$type": "LiteralString",
+                    "value": "x"
+                  }
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "LiteralString",
+                "value": "x"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "not nil = true"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "not",
+                "exp": {
+                  "$type": "NilExp"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "TrueExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "not false = true"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "not",
+                "exp": {
+                  "$type": "FalseExp"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "TrueExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "not 0 = false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "not",
+                "exp": {
+                  "$type": "Numeral",
+                  "value": "0"
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "test"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "not '' = false"
+            },
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "UnopExp",
+                "op": "not",
+                "exp": {
+                  "$type": "LiteralString",
+                  "value": ""
+                }
+              },
+              "op": "==",
+              "right": {
+                "$type": "FalseExp"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": ""
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "==========================================="
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "BinopExp",
+              "left": {
+                "$type": "LiteralString",
+                "value": "RESULTS: "
+              },
+              "op": "..",
+              "right": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "passed"
+                  }
+                },
+                "op": "..",
+                "right": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "LiteralString",
+                    "value": " passed, "
+                  },
+                  "op": "..",
+                  "right": {
+                    "$type": "BinopExp",
+                    "left": {
+                      "$type": "VarExp",
+                      "v": {
+                        "$type": "NameVar",
+                        "name": "failed"
+                      }
+                    },
+                    "op": "..",
+                    "right": {
+                      "$type": "LiteralString",
+                      "value": " failed"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$type": "FunctionCallStat",
+        "call": {
+          "prefix": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "print"
+            }
+          },
+          "method": null,
+          "args": [
+            {
+              "$type": "LiteralString",
+              "value": "==========================================="
+            }
+          ]
+        }
+      },
+      {
+        "$type": "IfStat",
+        "condition": {
+          "$type": "BinopExp",
+          "left": {
+            "$type": "VarExp",
+            "v": {
+              "$type": "NameVar",
+              "name": "failed"
+            }
+          },
+          "op": "==",
+          "right": {
+            "$type": "Numeral",
+            "value": "0"
+          }
+        },
+        "thenBlock": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "All tests passed!"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "elseifs": [],
+        "elseBlock": {
+          "stats": [
+            {
+              "$type": "FunctionCallStat",
+              "call": {
+                "prefix": {
+                  "$type": "VarExp",
+                  "v": {
+                    "$type": "NameVar",
+                    "name": "print"
+                  }
+                },
+                "method": null,
+                "args": [
+                  {
+                    "$type": "LiteralString",
+                    "value": "Some tests failed - check implementation"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
