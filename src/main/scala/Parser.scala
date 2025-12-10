@@ -17,6 +17,7 @@ class Parser() {
   }
 
   def parseBlock(): Block = {
+    // println("in parseBlock")
     val stats = ListBuffer[Stat]()
     while (lookahead != null && !isBlockEnd() && lookahead.kind != "RETURN") {
       val stat = parseStat()
@@ -29,6 +30,7 @@ class Parser() {
   }
 
   def parseRetstat(): Option[RetStat] = {
+    // println("retstat")
     if (lookahead != null && lookahead.kind == "RETURN") {
       eat("RETURN")
       val exps = if (lookahead != null && !isBlockEnd() && lookahead.kind != "SEMICOLON") {
@@ -50,8 +52,17 @@ class Parser() {
     }
   }
 
+  // not using this anymore
+  def isKeyword(s: String): Boolean = {
+    val keywords = Set("and", "break", "do", "else", "elseif", "end", "false",
+      "for", "function", "goto", "if", "in", "local", "nil", "not", "or",
+      "repeat", "return", "then", "true", "until", "while")
+    keywords.contains(s)
+  }
+
   def parseStat(): Stat = {
     if (lookahead == null) return null
+    // println(s"parseStat: ${lookahead.kind}")
 
     lookahead.kind match {
       case "SEMICOLON" =>
@@ -114,8 +125,11 @@ class Parser() {
   }
 
   // parses: varlist '=' explist | functioncall
+  // this was tricky to get right
   def parseAssignOrCall(): Stat = {
+    // println("parseAssignOrCall")
     val first = parsePrefixexp()
+    // println("first " + first)
     first match {
       case FunctionCallExp(fc) =>
         // check if more vars or assignment
@@ -154,10 +168,11 @@ class Parser() {
     }
   }
 
-  // prefixexp ::= var | functioncall | '(' exp ')'
-  // var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
-  // functioncall ::= prefixexp args | prefixexp ':' Name args
+  // prefixexp is var or functioncall or a parenthesized exp
+  // var is Name or prefixexp with index or dot access
+  // functioncall is prefixexp with args or method call
   def parsePrefixexp(): Exp = {
+    // println("prefix")
     val base = if (lookahead.kind == "LPAREN") {
       eat("LPAREN")
       val exp = parseExp()
@@ -200,7 +215,7 @@ class Parser() {
         parsePrefixexpSuffixes(FunctionCallExp(FunctionCall(prefix, Some(method), args)))
 
       case "LBRACE" =>
-        val table = parseTable()
+        val table = parseTableConstructor()
         parsePrefixexpSuffixes(FunctionCallExp(FunctionCall(prefix, None, List(table))))
 
       case "STRING" =>
@@ -213,6 +228,7 @@ class Parser() {
   }
 
   def parseNameList(): List[String] = {
+    // println("namelist")
     val names = ListBuffer(eat("NAME").value)
     while (lookahead != null && lookahead.kind == "COMMA") {
       eat("COMMA")
@@ -222,6 +238,7 @@ class Parser() {
   }
 
   def parseExpList(): List[Exp] = {
+    // println("explist")
     val exps = ListBuffer[Exp](parseExp())
     while (lookahead != null && lookahead.kind == "COMMA") {
       eat("COMMA")
@@ -231,20 +248,20 @@ class Parser() {
   }
 
   def parseExp(): Exp = {
-    parseOrExp()
+    parseOr()
   }
 
   // or has lowest precedence
-  def parseOrExp(): Exp = {
-    var left = parseAndExp()
+  def parseOr(): Exp = {
+    var left = parseAnd()
     while (lookahead != null && lookahead.kind == "OR") {
       eat("OR")
-      left = BinopExp(left, "or", parseAndExp())
+      left = BinopExp(left, "or", parseAnd())
     }
     left
   }
 
-  def parseAndExp(): Exp = {
+  def parseAnd(): Exp = {
     var left = parseCompareExp()
     while (lookahead != null && lookahead.kind == "AND") {
       eat("AND")
@@ -270,6 +287,7 @@ class Parser() {
     }
   }
 
+  // concat is right associative
   def parseConcatExp(): Exp = {
     var left = parseAddExp()
     if (lookahead != null && lookahead.kind == "DOTDOT") {
@@ -322,6 +340,7 @@ class Parser() {
     }
   }
 
+  // power is right associative and binds tighter than unary
   def parsePowerExp(): Exp = {
     val left = parsePrimaryExp()
     if (lookahead != null && lookahead.kind == "CARET") {
@@ -332,6 +351,7 @@ class Parser() {
 
   def parsePrimaryExp(): Exp = {
     if (lookahead == null) return NilExp()
+    // println(s"parsePrimaryExp: ${lookahead.kind} = ${lookahead.value}")
 
     lookahead.kind match {
       case "NIL" =>
@@ -359,7 +379,7 @@ class Parser() {
         VarargExp()
 
       case "LBRACE" =>
-        parseTable()
+        parseTableConstructor()
 
       case "FUNCTION" =>
         eat("FUNCTION")
@@ -380,7 +400,7 @@ class Parser() {
     }
   }
 
-  // handle .name, [exp], (args), :method(args) suffixes
+  // handle suffixes like dot access, indexing, calls, method calls
   def parseSuffixes(prefix: Exp): Exp = {
     if (lookahead == null) return prefix
 
@@ -412,7 +432,7 @@ class Parser() {
 
       case "LBRACE" =>
         // table constructor as argument
-        val table = parseTable()
+        val table = parseTableConstructor()
         parseSuffixes(FunctionCallExp(FunctionCall(prefix, None, List(table))))
 
       case "STRING" =>
@@ -426,6 +446,7 @@ class Parser() {
   }
 
   def parseIf(): IfStat = {
+    // println("parseIf")
     eat("IF")
     val cond = parseExp()
     eat("THEN")
@@ -433,6 +454,7 @@ class Parser() {
 
     val elseifs = ListBuffer[ElseIf]()
     while (lookahead != null && lookahead.kind == "ELSEIF") {
+      // println("elseif branch")
       eat("ELSEIF")
       val c = parseExp()
       eat("THEN")
@@ -450,6 +472,7 @@ class Parser() {
   }
 
   def parseWhile(): WhileStat = {
+    // println("while")
     eat("WHILE")
     val cond = parseExp()
     eat("DO")
@@ -459,11 +482,13 @@ class Parser() {
   }
 
   def parseFor(): Stat = {
+    // println("parseFor")
     eat("FOR")
     val name = eat("NAME").value
 
     if (lookahead.kind == "ASSIGN") {
-      // for i = 1, 10 do
+      // numeric for: for i = 1, 10 do
+      // println("numeric for")
       eat("ASSIGN")
       val start = parseExp()
       eat("COMMA")
@@ -477,7 +502,8 @@ class Parser() {
       eat("END")
       ForNumStat(name, start, end, step, block)
     } else {
-      // for k, v in pairs(t) do
+      // generic for loop
+      // println("generic for")
       val names = ListBuffer(name)
       while (lookahead != null && lookahead.kind == "COMMA") {
         eat("COMMA")
@@ -493,6 +519,7 @@ class Parser() {
   }
 
   def parseFunction(): FunctionStat = {
+    // println("func")
     eat("FUNCTION")
     val funcName = parseFuncName()
     val body = parseFuncBody()
@@ -500,6 +527,7 @@ class Parser() {
   }
 
   def parseFuncName(): FuncName = {
+    // println("funcname")
     val names = ListBuffer(eat("NAME").value)
     while (lookahead != null && lookahead.kind == "DOT") {
       eat("DOT")
@@ -513,6 +541,7 @@ class Parser() {
   }
 
   def parseFuncBody(): FuncBody = {
+    // println("parseFuncBody")
     eat("LPAREN")
     val params = ListBuffer[String]()
     var vararg = false
@@ -534,12 +563,14 @@ class Parser() {
       }
     }
     eat("RPAREN")
+    // println("params " + params)
     val block = parseBlock()
     eat("END")
     FuncBody(params.toList, vararg, block)
   }
 
   def parseLocal(): Stat = {
+    // println("local")
     eat("LOCAL")
     if (lookahead != null && lookahead.kind == "FUNCTION") {
       eat("FUNCTION")
@@ -561,6 +592,7 @@ class Parser() {
   }
 
   def parseDo(): DoStat = {
+    // println("do block")
     eat("DO")
     val block = parseBlock()
     eat("END")
@@ -568,6 +600,7 @@ class Parser() {
   }
 
   def parseRepeat(): RepeatStat = {
+    // println("repeat")
     eat("REPEAT")
     val block = parseBlock()
     eat("UNTIL")
@@ -575,22 +608,26 @@ class Parser() {
     RepeatStat(block, cond)
   }
 
-  def parseTable(): TableConstructor = {
+  def parseTableConstructor(): TableConstructor = {
+    // println("table")
     eat("LBRACE")
     val fields = ListBuffer[Field]()
     while (lookahead != null && lookahead.kind != "RBRACE") {
       fields += parseField()
+      // seperator is optional
       if (lookahead != null && (lookahead.kind == "COMMA" || lookahead.kind == "SEMICOLON")) {
         eat(lookahead.kind)
       }
     }
     eat("RBRACE")
+    // println("table fields " + fields.size)
     TableConstructor(fields.toList)
   }
 
   def parseField(): Field = {
+    // println("field")
     if (lookahead.kind == "LBRACKET") {
-      // [exp] = exp
+      // bracket key field
       eat("LBRACKET")
       val key = parseExp()
       eat("RBRACKET")
@@ -605,7 +642,7 @@ class Parser() {
         val value = parseExp()
         NameKeyField(name, value)
       } else {
-        // just exp
+        // just exp, the name we ate is actually a variable reference
         ValueField(VarExp(NameVar(name)))
       }
     } else {

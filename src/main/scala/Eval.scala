@@ -1,6 +1,7 @@
 // Parts created and verified with the assistance from Claude AI
 
 import scala.collection.mutable
+import scala.util.Try
 
 sealed trait LuaVal {
   def show: String = this match {
@@ -26,9 +27,11 @@ class EvalError(msg: String) extends Exception(msg)
 class ReturnException(val values: List[LuaVal]) extends Exception
 class BreakException extends Exception
 
+// environment for variable scoping
 class Env(var vars: mutable.Map[String, LuaVal], val parent: Option[Env]) {
 
   def get(name: String): LuaVal = {
+    // println(s"get: $name")
     if (vars.contains(name)) vars(name)
     else parent match {
       case Some(p) => p.get(name)
@@ -40,7 +43,7 @@ class Env(var vars: mutable.Map[String, LuaVal], val parent: Option[Env]) {
     if (vars.contains(name)) vars(name) = value
     else parent match {
       case Some(p) => p.set(name, value)
-      case None => vars(name) = value
+      case None => vars(name) = value  // global by default
     }
   }
 
@@ -53,6 +56,12 @@ class Env(var vars: mutable.Map[String, LuaVal], val parent: Option[Env]) {
 
 object Eval {
 
+  // def isCallable(v: LuaVal): Boolean = v match {
+  //   case LuaFunc(a, b, c, d) => true
+  //   case LuaBuiltin(name, f) => true
+  //   case x => false
+  // }
+
   def eval(e: Exp, env: Env): LuaVal = e match {
     case NilExp() => LuaNil
     case TrueExp() => LuaBool(true)
@@ -62,11 +71,14 @@ object Eval {
     case ParenExp(inner) => eval(inner, env)
     case UnopExp(op, exp) => evalUnop(op, eval(exp, env))
     case BinopExp(l, op, r) => evalBinop(l, op, r, env)
-    case VarExp(v) => evalVar(v, env)
+    case VarExp(v) =>
+      // println("varexp " + v)
+      evalVar(v, env)
     case TableConstructor(fields) => evalTable(fields, env)
     case FunctionDefExp(body) => LuaFunc(body.params, body.vararg, body.block, env)
     case FunctionCallExp(call) =>
       val results = evalCall(call, env)
+      // println("call result " + results)
       if (results.isEmpty) LuaNil else results.head
     case VarargExp() =>
       env.get("...") match {
@@ -81,6 +93,7 @@ object Eval {
     val init = exps.init.map(e => eval(e, env))
     val last = exps.last
 
+    // last expression can return multiple values
     val lastVals = last match {
       case FunctionCallExp(call) => evalCall(call, env)
       case VarargExp() =>
@@ -102,6 +115,7 @@ object Eval {
   }
 
   def evalTable(fields: List[Field], env: Env): LuaTable = {
+    // println("in evaltable")
     val map = mutable.Map[LuaVal, LuaVal]()
     var idx = 1
     for ((f, fIdx) <- fields.zipWithIndex) {
@@ -111,6 +125,7 @@ object Eval {
         case NameKeyField(n, v) => map(LuaStr(n)) = eval(v, env)
         case ValueField(v) =>
           if (isLast) {
+            // last field can expand to multiple values
             val vals = v match {
               case FunctionCallExp(call) => evalCall(call, env)
               case VarargExp() =>
@@ -127,6 +142,7 @@ object Eval {
                 }
               case _ => List(eval(v, env))
             }
+            // println("vals " + vals)
             for (value <- vals) {
               map(LuaNum(idx)) = value
               idx += 1
@@ -159,16 +175,17 @@ object Eval {
     case IndexVar(prefix, index) =>
       eval(prefix, env) match {
         case LuaTable(m) => m(eval(index, env)) = value
-        case _ => throw new EvalError("cannot index non-table")
+        case _ => throw new EvalError("tried to index something that isn't a table")
       }
     case DotVar(prefix, name) =>
       eval(prefix, env) match {
         case LuaTable(m) => m(LuaStr(name)) = value
-        case _ => throw new EvalError("cannot index non-table")
+        case _ => throw new EvalError("tried to index something that isn't a table")
       }
   }
 
   def evalCall(call: FunctionCall, env: Env): List[LuaVal] = {
+    // println(s"evalCall: ${call}")
     val func = call.method match {
       case Some(method) =>
         eval(call.prefix, env) match {
@@ -178,14 +195,17 @@ object Eval {
       case None => eval(call.prefix, env)
     }
 
+    // for method calls, add self as first argument
     val args = call.method match {
       case Some(_) => eval(call.prefix, env) :: evalExpList(call.args, env)
       case None => evalExpList(call.args, env)
     }
 
+    // println("func is " + func)
     func match {
       case LuaFunc(params, vararg, body, closure) =>
         val funcEnv = closure.child()
+        // println("params " + params + " args " + args)
         for ((p, i) <- params.zipWithIndex) {
           funcEnv.define(p, if (i < args.length) args(i) else LuaNil)
         }
@@ -202,7 +222,7 @@ object Eval {
           case r: ReturnException => r.values
         }
       case LuaBuiltin(_, fn) => fn(args)
-      case _ => throw new EvalError("attempt to call non-function")
+      case _ => throw new EvalError("can't call this, not a function")
     }
   }
 
@@ -212,16 +232,18 @@ object Eval {
     case "#" => v match {
       case LuaStr(s) => LuaNum(s.length)
       case LuaTable(m) =>
+        // count sequential integer keys starting from 1
         var len = 0
         while (m.contains(LuaNum(len + 1))) len += 1
         LuaNum(len)
-      case _ => throw new EvalError("# requires string or table")
+      case _ => throw new EvalError("can only get length of string or table")
     }
     case "~" => LuaNum(~toNum(v).toLong)
     case _ => throw new EvalError(s"unknown unary op: $op")
   }
 
   def evalBinop(l: Exp, op: String, r: Exp, env: Env): LuaVal = op match {
+    // short circuit evaluation for and/or
     case "and" => if (!isTruthy(eval(l, env))) eval(l, env) else eval(r, env)
     case "or" => if (isTruthy(eval(l, env))) eval(l, env) else eval(r, env)
     case _ =>
@@ -233,6 +255,7 @@ object Eval {
         case "*" => LuaNum(toNum(lv) * toNum(rv))
         case "/" => LuaNum(toNum(lv) / toNum(rv))
         case "//" => LuaNum(Math.floor(toNum(lv) / toNum(rv)))
+        // lua modulo is weird, not the same as % in most languages
         case "%" =>
           val a = toNum(lv)
           val b = toNum(rv)
@@ -270,6 +293,7 @@ object Eval {
 
     case AssignStat(vars, exps) =>
       val vals = evalExpList(exps, env)
+      // println(s"assign: $vars = $vals")
       for ((v, i) <- vars.zipWithIndex) {
         setVar(v, if (i < vals.length) vals(i) else LuaNil, env)
       }
@@ -277,11 +301,13 @@ object Eval {
     case FunctionCallStat(call) => evalCall(call, env)
 
     case IfStat(cond, thenBlock, elseifs, elseBlock) =>
+      // println("if " + cond)
       if (isTruthy(eval(cond, env))) {
         execBlock(thenBlock, env.child())
       } else {
         var done = false
         for (elif <- elseifs if !done) {
+          // println("elseif")
           if (isTruthy(eval(elif.condition, env))) {
             execBlock(elif.block, env.child())
             done = true
@@ -301,11 +327,13 @@ object Eval {
         while (cont) {
           val loopEnv = env.child()
           execBlock(block, loopEnv)
+          // condition is checked with block's scope so it can see local vars
           if (isTruthy(eval(cond, loopEnv))) cont = false
         }
       } catch { case _: BreakException => }
 
     case ForNumStat(name, start, end, step, block) =>
+      // println("fornum " + name)
       val s = toNum(eval(start, env))
       val e = toNum(eval(end, env))
       val st = step.map(x => toNum(eval(x, env))).getOrElse(1.0)
@@ -320,6 +348,8 @@ object Eval {
       } catch { case _: BreakException => }
 
     case ForInStat(names, explist, block) =>
+      // generic for is complicated...
+      // println("forin")
       val vals = explist.map(e => eval(e, env))
       val iter = if (vals.nonEmpty) vals.head else LuaNil
       val state = if (vals.length > 1) vals(1) else LuaNil
@@ -337,6 +367,7 @@ object Eval {
               catch { case r: ReturnException => r.values }
             case _ => List()
           }
+          // println("forin results " + results)
           if (results.isEmpty || results.head == LuaNil) cont = false
           else {
             ctrl = results.head
@@ -354,6 +385,7 @@ object Eval {
       if (funcName.names.length == 1 && funcName.method.isEmpty) {
         env.set(funcName.names.head, func)
       } else {
+        // handle foo.bar.baz = function or foo:method = function
         var table = env.get(funcName.names.head)
         for (n <- funcName.names.tail.dropRight(if (funcName.method.isDefined) 0 else 1)) {
           table = table match {
@@ -365,6 +397,7 @@ object Eval {
         table match {
           case LuaTable(m) =>
             val actualFunc = if (funcName.method.isDefined) {
+              // method syntax adds implicit self parameter
               LuaFunc("self" :: body.params, body.vararg, body.block, env)
             } else func
             m(LuaStr(lastName)) = actualFunc
@@ -377,8 +410,8 @@ object Eval {
 
     case DoStat(block) => execBlock(block, env.child())
     case BreakStat() => throw new BreakException()
-    case LabelStat(_) =>
-    case GotoStat(_) =>
+    case LabelStat(_) =>  // TODO: implement goto/labels
+    case GotoStat(_) =>   // TODO: implement goto/labels
   }
 
   def isTruthy(v: LuaVal): Boolean = v match {
@@ -389,20 +422,20 @@ object Eval {
 
   def toNum(v: LuaVal): Double = v match {
     case LuaNum(n) => n
-    case LuaStr(s) => s.toDoubleOption.getOrElse(throw new EvalError(s"cannot convert '$s' to number"))
-    case _ => throw new EvalError("expected number")
+    case LuaStr(s) => s.toDoubleOption.getOrElse(throw new EvalError(s"can't convert '$s' to number"))
+    case _ => throw new EvalError("expected a number")
   }
 
   def toStr(v: LuaVal): String = v match {
     case LuaStr(s) => s
     case LuaNum(n) => if (n == n.toLong) n.toLong.toString else n.toString
-    case _ => throw new EvalError("expected string or number")
+    case _ => throw new EvalError("expected string or number for concatenation")
   }
 
   def compare(a: LuaVal, b: LuaVal): Int = (a, b) match {
     case (LuaNum(x), LuaNum(y)) => x.compare(y)
     case (LuaStr(x), LuaStr(y)) => x.compare(y)
-    case _ => throw new EvalError("cannot compare these types")
+    case _ => throw new EvalError("can only compare numbers with numbers or strings with strings")
   }
 
   def isEqual(a: LuaVal, b: LuaVal): Boolean = (a, b) match {
@@ -410,9 +443,11 @@ object Eval {
     case (LuaBool(x), LuaBool(y)) => x == y
     case (LuaNum(x), LuaNum(y)) => x == y
     case (LuaStr(x), LuaStr(y)) => x == y
-    case (LuaTable(x), LuaTable(y)) => x eq y
+    case (LuaTable(x), LuaTable(y)) => x eq y  // reference equality for tables
     case _ => false
   }
+
+  // TODO: metatables would go here
 
   def makeGlobalEnv(): Env = {
     val env = new Env(mutable.Map(), None)
@@ -449,115 +484,6 @@ object Eval {
     env.define("error", LuaBuiltin("error", args => {
       throw new EvalError(args.headOption.map(_.show).getOrElse("error"))
     }))
-
-    env.define("assert", LuaBuiltin("assert", args => {
-      if (!isTruthy(args.headOption.getOrElse(LuaNil))) {
-        throw new EvalError(args.lift(1).map(_.show).getOrElse("assertion failed"))
-      }
-      args
-    }))
-
-    env.define("pairs", LuaBuiltin("pairs", args => {
-      args.headOption match {
-        case Some(t @ LuaTable(m)) =>
-          val keys = m.keys.toList
-          var idx = 0
-          val iter = LuaBuiltin("pairs_iter", _ => {
-            if (idx >= keys.length) List(LuaNil)
-            else {
-              val k = keys(idx)
-              idx += 1
-              List(k, m(k))
-            }
-          })
-          List(iter, t, LuaNil)
-        case _ => List(LuaNil, LuaNil, LuaNil)
-      }
-    }))
-
-    env.define("ipairs", LuaBuiltin("ipairs", args => {
-      args.headOption match {
-        case Some(t @ LuaTable(m)) =>
-          var idx = 0
-          val iter = LuaBuiltin("ipairs_iter", _ => {
-            idx += 1
-            m.get(LuaNum(idx)) match {
-              case Some(v) => List(LuaNum(idx), v)
-              case None => List(LuaNil)
-            }
-          })
-          List(iter, t, LuaNum(0))
-        case _ => List(LuaNil, LuaNil, LuaNil)
-      }
-    }))
-
-    env.define("next", LuaBuiltin("next", args => {
-      (args.headOption, args.lift(1)) match {
-        case (Some(LuaTable(m)), keyOpt) =>
-          val keys = m.keys.toList
-          val key = keyOpt.getOrElse(LuaNil)
-          if (key == LuaNil) {
-            if (keys.isEmpty) List(LuaNil)
-            else List(keys.head, m(keys.head))
-          } else {
-            val i = keys.indexOf(key)
-            if (i < 0 || i + 1 >= keys.length) List(LuaNil)
-            else List(keys(i + 1), m(keys(i + 1)))
-          }
-        case _ => List(LuaNil)
-      }
-    }))
-
-    env.define("select", LuaBuiltin("select", args => {
-      args.headOption match {
-        case Some(LuaStr("#")) => List(LuaNum(args.length - 1))
-        case Some(LuaNum(n)) => if (n.toInt > 0) args.drop(n.toInt) else args.takeRight(-n.toInt)
-        case _ => List()
-      }
-    }))
-
-    env.define("pcall", LuaBuiltin("pcall", args => {
-      args.headOption match {
-        case Some(f @ (LuaFunc(_, _, _, _) | LuaBuiltin(_, _))) =>
-          try {
-            val results = f match {
-              case LuaBuiltin(_, fn) => fn(args.tail)
-              case LuaFunc(params, _, body, closure) =>
-                val funcEnv = closure.child()
-                for ((p, i) <- params.zipWithIndex) {
-                  funcEnv.define(p, args.tail.lift(i).getOrElse(LuaNil))
-                }
-                try { execBlock(body, funcEnv); List() }
-                catch { case r: ReturnException => r.values }
-              case _ => List()
-            }
-            LuaBool(true) :: results
-          } catch {
-            case e: Exception => List(LuaBool(false), LuaStr(e.getMessage))
-          }
-        case _ => List(LuaBool(false), LuaStr("not a function"))
-      }
-    }))
-
-    env.define("rawget", LuaBuiltin("rawget", args => {
-      (args.headOption, args.lift(1)) match {
-        case (Some(LuaTable(m)), Some(k)) => List(m.getOrElse(k, LuaNil))
-        case _ => List(LuaNil)
-      }
-    }))
-
-    env.define("rawset", LuaBuiltin("rawset", args => {
-      (args.headOption, args.lift(1), args.lift(2)) match {
-        case (Some(t @ LuaTable(m)), Some(k), Some(v)) => m(k) = v; List(t)
-        case _ => List(LuaNil)
-      }
-    }))
-
-    env.define("setmetatable", LuaBuiltin("setmetatable", args => {
-      List(args.headOption.getOrElse(LuaNil))
-    }))
-
-    env.define("getmetatable", LuaBuiltin("getmetatable", _ => List(LuaNil)))
 
     env
   }

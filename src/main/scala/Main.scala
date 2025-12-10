@@ -1,4 +1,5 @@
 import scala.io.Source
+import scala.util.{Success, Failure}  // might use later for better error handling
 import upickle.default.*
 import java.io.{File, PrintWriter}
 
@@ -16,8 +17,9 @@ object Main {
     val parser = Parser()
     val ast = parser.parse(code)
 
-    // write AST to JSON
+    // write AST to JSON file
     val json = write(ast, indent = 2)
+    // println(json)
     val inputFile = new File(args(0))
     val baseName = inputFile.getName.replaceAll("\\.lua$", "")
     val outputDir = new File("JSON_output")
@@ -30,6 +32,7 @@ object Main {
     println()
 
     // run the program
+    // println("starting eval...")
     val env = Eval.makeGlobalEnv()
     try {
       Eval.execBlock(ast.block, env)

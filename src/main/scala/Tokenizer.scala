@@ -3,15 +3,17 @@
 class Tokenizer(string: String) {
   var cursor: Int = 0
 
-  val Spec: List[(String, String)] = List(
+  // all the token patterns, order matters here
+  val tokenPatterns: List[(String, String)] = List(
     // skip whitespace
     (null, "^\\s+"),
 
     // skip comments
     (null, "^--\\[\\[([\\s\\S]*?)\\]\\]"),
     (null, "^--[^\\n]*"),
+    // TODO handle long strings
 
-    // keywords
+    // keywords, need to come before NAME or they get matched as names
     ("AND", "^and\\b"),
     ("BREAK", "^break\\b"),
     ("DO", "^do\\b"),
@@ -35,7 +37,7 @@ class Tokenizer(string: String) {
     ("UNTIL", "^until\\b"),
     ("WHILE", "^while\\b"),
 
-    // numbers
+    // numbers, decimal first so 3.14 doesnt match as 3 then .14
     ("NUMBER", "^\\d+\\.\\d+"),
     ("NUMBER", "^\\d+"),
 
@@ -43,7 +45,7 @@ class Tokenizer(string: String) {
     ("STRING", "^\"[^\"]*\""),
     ("STRING", "^'[^']*'"),
 
-    // multi char operators
+    // multi char operators, these MUST come before single char ones
     ("DOUBLECOLON", "^::"),
     ("DOTDOTDOT", "^\\.\\.\\."),
     ("DOTDOT", "^\\.\\."),
@@ -82,7 +84,7 @@ class Tokenizer(string: String) {
     ("COLON", "^:"),
     ("DOT", "^\\."),
 
-    // names
+    // names, must be last
     ("NAME", "^[a-zA-Z_][a-zA-Z0-9_]*")
   )
 
@@ -97,12 +99,13 @@ class Tokenizer(string: String) {
 
     val slice = string.substring(cursor)
 
-    for ((kind, pattern) <- Spec) {
+    for ((kind, pattern) <- tokenPatterns) {
       val regex = pattern.r
       val matched = regex.findFirstMatchIn(slice)
       if (matched.isDefined) {
         val value = matched.get.matched
         cursor += value.length
+        // println(s"matched: $kind -> $value")
         kind match {
           case null => return getNextToken()
           case "STRING" => return Token(kind, value.substring(1, value.length - 1))
