@@ -2,20 +2,39 @@
 
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Recursive descent parser in LUA
+ * It uses a single token lookahead ll(1) to decide what gramamr rule we will apply.
+ * The tokenizer converts source code into an Abstract Syntax Tree
+ */
+
 class Parser() {
   var tokenizer: Tokenizer = null
   var lookahead: Token = null
 
+  /**
+   * Initializes the tokenizer and starts parsing
+   */
   def parse(code: String): Chunk = {
     tokenizer = Tokenizer(code)
     lookahead = tokenizer.getNextToken()
     parseChunk()
   }
 
+  /**
+   * Every LUA code is a chunk. This is the main entry point.
+   * from LUA BNF:
+   * chunk ::= block
+   * */
   def parseChunk(): Chunk = {
     Chunk(parseBlock())
   }
 
+
+  /**
+   * from LUA BNF:
+   * block ::= {stat} [retstat]
+   */
   def parseBlock(): Block = {
     // println("in parseBlock")
     val stats = ListBuffer[Stat]()
@@ -52,7 +71,6 @@ class Parser() {
     }
   }
 
-  // not using this anymore
   def isKeyword(s: String): Boolean = {
     val keywords = Set("and", "break", "do", "else", "elseif", "end", "false",
       "for", "function", "goto", "if", "in", "local", "nil", "not", "or",
@@ -125,7 +143,13 @@ class Parser() {
   }
 
   // parses: varlist '=' explist | functioncall
-  // this was tricky to get right
+
+  /**
+   * This handles the ambiguity between assignment and function call
+   * Both start witth a prefixep. The solution is to parse that first, then
+   * check what comes next. '=' ( assignment ) or ',' ( function call )
+   *
+   */
   def parseAssignOrCall(): Stat = {
     // println("parseAssignOrCall")
     val first = parsePrefixexp()
@@ -168,9 +192,13 @@ class Parser() {
     }
   }
 
-  // prefixexp is var or functioncall or a parenthesized exp
-  // var is Name or prefixexp with index or dot access
-  // functioncall is prefixexp with args or method call
+  /**
+   * from LUA BNF:
+   * prefixexp ::= var | functioncall | '(' exp ')'
+   * var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+   *
+   * Parses the base (a Name or a parenthesized expression) and then continues parsing any suffixes
+   */
   def parsePrefixexp(): Exp = {
     // println("prefix")
     val base = if (lookahead.kind == "LPAREN") {
@@ -185,6 +213,19 @@ class Parser() {
     parsePrefixexpSuffixes(base)
   }
 
+  /**
+   * After we get the base, we check if there are more things after it like dots or brackets.
+   * We keep going recursively until nothing more follows.
+   *
+   * Handles suffix chains for prefixexp:
+   * - '.' Name
+   * - '[' exp ']'
+   * - args
+   * - ':' Name args
+   *
+   * from LUA BNF
+   * args ::= '(' [explist] ')' | tableconstructor | LiteralString
+   */
   def parsePrefixexpSuffixes(prefix: Exp): Exp = {
     if (lookahead == null) return prefix
 
@@ -237,6 +278,12 @@ class Parser() {
     names.toList
   }
 
+  /**
+   * A list of expressions separated by commas.
+   *
+   * from LUA BNF
+   * explist ::= exp {',' exp}
+   */
   def parseExpList(): List[Exp] = {
     // println("explist")
     val exps = ListBuffer[Exp](parseExp())
@@ -247,11 +294,24 @@ class Parser() {
     exps.toList
   }
 
+  /**
+   * Entry point for parsing expressions. We start with the lowest precedence and go up.
+   *
+   * from LUA BNF:
+   * exp ::= nil | false | true | Numeral | LiteralString | '...' |
+   *         functiondef | prefixexp | tableconstructor | exp binop exp | unop exp
+   *
+   * Precedence (low to high): or, and, comparison, concat, add, mul, unary, power
+   */
   def parseExp(): Exp = {
     parseOr()
   }
 
-  // or has lowest precedence
+  /**
+   * Or has the lowest priority so we parse it first in the chain.
+   *
+   * Lowest precedence: 'or' is left associative
+   */
   def parseOr(): Exp = {
     var left = parseAnd()
     while (lookahead != null && lookahead.kind == "OR") {
@@ -287,7 +347,13 @@ class Parser() {
     }
   }
 
-  // concat is right associative
+  /**
+   * Concatenation is special because it groups to the right, so we use recursion instead of a loop.
+   *
+   * from LUA BNF:
+   * concat ::= '..' is right associative
+   * a..b..c parses as a..(b..c)
+   */
   def parseConcatExp(): Exp = {
     var left = parseAddExp()
     if (lookahead != null && lookahead.kind == "DOTDOT") {
@@ -340,7 +406,11 @@ class Parser() {
     }
   }
 
-  // power is right associative and binds tighter than unary
+  /**
+   * from LUA BNF:
+   * power ::= '^' is right associative
+   * for exmaple -2^2 = -(2^2) = -4
+   */
   def parsePowerExp(): Exp = {
     val left = parsePrimaryExp()
     if (lookahead != null && lookahead.kind == "CARET") {
@@ -445,6 +515,13 @@ class Parser() {
     }
   }
 
+  /**
+   * If then else parttern matching. There can be multiple elsif
+   * in the middle.
+   *
+   * from LUA BNF:
+   * ifstat ::= 'if' exp 'then' block {'elseif' exp 'then' block} ['else' block] 'end'
+   */
   def parseIf(): IfStat = {
     // println("parseIf")
     eat("IF")
@@ -481,6 +558,16 @@ class Parser() {
     WhileStat(cond, block)
   }
 
+  /**
+   * Lua has two kinds of for loops. We look at what comes after the first name to know which one
+   * we are dealing with.
+   *
+   * from LUA BNF:
+   * forstat ::= 'for' Name '=' exp ',' exp [',' exp] 'do' block 'end'   (numeric)
+   *           | 'for' namelist 'in' explist 'do' block 'end'            (generic)
+   *
+   * Distinguishes by checking for '=' after first Name
+   */
   def parseFor(): Stat = {
     // println("parseFor")
     eat("FOR")
@@ -540,6 +627,13 @@ class Parser() {
     FuncName(names.toList, method)
   }
 
+  /**
+   * Parses the parameters and the body of a function. Can have vararg at the end.
+   *
+   * from LUA BNF:
+   * funcbody ::= '(' [parlist] ')' block 'end'
+   * parlist ::= namelist [',' '...'] | '...'
+   */
   def parseFuncBody(): FuncBody = {
     // println("parseFuncBody")
     eat("LPAREN")
@@ -608,6 +702,14 @@ class Parser() {
     RepeatStat(block, cond)
   }
 
+  /**
+   * Tables are like arrays and dictionaries mixed together. Fields can have different formats.
+   *
+   * from LUA BNF:
+   * tableconstructor ::= '{' [fieldlist] '}'
+   * fieldlist ::= field {fieldsep field} [fieldsep]
+   * fieldsep ::= ',' | ';'
+   */
   def parseTableConstructor(): TableConstructor = {
     // println("table")
     eat("LBRACE")
@@ -624,6 +726,12 @@ class Parser() {
     TableConstructor(fields.toList)
   }
 
+  /**
+   * A field can be [exp]=exp, name=exp, or just an expression by itself.
+   *
+   * from LUA BNF:
+   * field ::= '[' exp ']' '=' exp | Name '=' exp | exp
+   */
   def parseField(): Field = {
     // println("field")
     if (lookahead.kind == "LBRACKET") {
@@ -650,6 +758,12 @@ class Parser() {
     }
   }
 
+  /**
+   * Helper function to consume tokens. If the token is not what we expect, we throw an error.
+   *
+   * Consumes token if it matches expected type, advances lookahead
+   * Throws exception on mismatch (syntax error)
+   */
   def eat(tokenType: String): Token = {
     val token = lookahead
     if (token == null) {

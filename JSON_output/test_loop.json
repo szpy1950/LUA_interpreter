@@ -1,0 +1,84 @@
+{
+  "block": {
+    "stats": [
+      {
+        "$type": "ForNumStat",
+        "name": "i",
+        "start": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "end": {
+          "$type": "Numeral",
+          "value": "10"
+        },
+        "step": {
+          "$type": "Numeral",
+          "value": "1"
+        },
+        "block": {
+          "stats": [
+            {
+              "$type": "IfStat",
+              "condition": {
+                "$type": "BinopExp",
+                "left": {
+                  "$type": "BinopExp",
+                  "left": {
+                    "$type": "VarExp",
+                    "v": {
+                      "$type": "NameVar",
+                      "name": "i"
+                    }
+                  },
+                  "op": "%",
+                  "right": {
+                    "$type": "Numeral",
+                    "value": "2"
+                  }
+                },
+                "op": "==",
+                "right": {
+                  "$type": "Numeral",
+                  "value": "0"
+                }
+              },
+              "thenBlock": {
+                "stats": [
+                  {
+                    "$type": "FunctionCallStat",
+                    "call": {
+                      "prefix": {
+                        "$type": "VarExp",
+                        "v": {
+                          "$type": "NameVar",
+                          "name": "print"
+                        }
+                      },
+                      "method": null,
+                      "args": [
+                        {
+                          "$type": "LiteralString",
+                          "value": "loop: "
+                        },
+                        {
+                          "$type": "VarExp",
+                          "v": {
+                            "$type": "NameVar",
+                            "name": "i"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "elseifs": [],
+              "elseBlock": null
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

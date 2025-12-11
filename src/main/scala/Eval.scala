@@ -1,8 +1,23 @@
 // Parts created and verified with the assistance from Claude AI
 
-import scala.collection.mutable
-import scala.util.Try
+/**
+ * Evaluator for the Lua interpreter
+ * takes the AST from the parser and executes it
+ * handles expressions, statements, function calls and variable scoping
+ */
 
+import scala.collection.mutable
+
+/**
+ * All runtime values in Lua
+ * nil, boolean, number, string, table and function
+ * builtin represents a native function provided byt the runtime:
+ * - print
+ * - type
+ * - tonumber
+ * - tostring
+ * - error
+ */
 sealed trait LuaVal {
   def show: String = this match {
     case LuaNil => "nil"
@@ -24,12 +39,24 @@ case class LuaFunc(params: List[String], vararg: Boolean, body: Block, closure: 
 case class LuaBuiltin(name: String, fn: List[LuaVal] => List[LuaVal]) extends LuaVal
 
 class EvalError(msg: String) extends Exception(msg)
+
 class ReturnException(val values: List[LuaVal]) extends Exception
+
+/** Used to handle break statements, caught in loops */
 class BreakException extends Exception
 
-// environment for variable scoping
+/**
+ * Environment for variable scoping in Lua
+ *
+ * Each env has its own variables and a parent for outer scope
+ * A closure is a funciton that remembers the environment where it was created.
+ *
+ * This allows the function to get access to variable from the scope even when called in a
+ * different scope or even later in the program.
+ */
 class Env(var vars: mutable.Map[String, LuaVal], val parent: Option[Env]) {
 
+  /** Retrieves a variable by name, goes to parent if not found locally */
   def get(name: String): LuaVal = {
     // println(s"get: $name")
     if (vars.contains(name)) vars(name)
@@ -39,29 +66,35 @@ class Env(var vars: mutable.Map[String, LuaVal], val parent: Option[Env]) {
     }
   }
 
+  /**
+   * Updates a variable if it exists in the scope, else calls define to create it
+   * */
   def set(name: String, value: LuaVal): Unit = {
     if (vars.contains(name)) vars(name) = value
     else parent match {
       case Some(p) => p.set(name, value)
-      case None => vars(name) = value  // global by default
+      case None => define(name, value)  // global by default
     }
   }
 
+  /** Creates a new variable in the current scope */
   def define(name: String, value: LuaVal): Unit = {
     vars(name) = value
   }
 
+  /** Creates a child environment for a new scope like function or block */
   def child(): Env = new Env(mutable.Map(), Some(this))
 }
 
 object Eval {
 
-  // def isCallable(v: LuaVal): Boolean = v match {
-  //   case LuaFunc(a, b, c, d) => true
-  //   case LuaBuiltin(name, f) => true
-  //   case x => false
-  // }
-
+  /**
+   * Recursively evaluates a LUA expression AST node and returns a luaVal
+   *
+   * turns expressions into values
+   *
+   * Uses as parameter the given environment to look up variables
+   * */
   def eval(e: Exp, env: Env): LuaVal = e match {
     case NilExp() => LuaNil
     case TrueExp() => LuaBool(true)
@@ -89,6 +122,12 @@ object Eval {
       }
   }
 
+  /**
+   * explist ::= exp {',' exp}
+   *
+   * Only the last expression can expand to multiple values
+   * Example: local a, b, c = func() where func returns 3 values
+   */
   def evalExpList(exps: List[Exp], env: Env): List[LuaVal] = {
     if (exps.isEmpty) return List()
 
@@ -116,6 +155,13 @@ object Eval {
     init ++ lastVals
   }
 
+  /**
+   * tableconstructor ::= '{' [fieldlist] '}'
+   * field ::= '[' exp ']' '=' exp | Name '=' exp | exp
+   *
+   * Example: {1, 2, x = 3, [10] = "ten"}
+   * Values without keys get auto incrementing integer index starting at 1
+   */
   def evalTable(fields: List[Field], env: Env): LuaTable = {
     // println("in evaltable")
     val map = mutable.Map[LuaVal, LuaVal]()
@@ -160,6 +206,12 @@ object Eval {
     LuaTable(map)
   }
 
+  /**
+   * var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+   *
+   * Example: x, t[1], t.name
+   * Returns LuaNil if variable or key does not exist
+   */
   def evalVar(v: Var, env: Env): LuaVal = v match {
     case NameVar(name) => env.get(name)
     case IndexVar(prefix, index) =>
@@ -178,20 +230,33 @@ object Eval {
       }
   }
 
+  /**
+   * var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+   *
+   * Example: x = 1, t[1] = 2, t.name = "foo"
+   * Unlike evalVar this throws error if indexing a non table
+   */
   def setVar(v: Var, value: LuaVal, env: Env): Unit = v match {
     case NameVar(name) => env.set(name, value)
     case IndexVar(prefix, index) =>
       eval(prefix, env) match {
         case LuaTable(m) => m(eval(index, env)) = value
-        case _ => throw new EvalError("tried to index something that isn't a table")
+        case _ => throw new EvalError("tried to index something that isnt a table")
       }
     case DotVar(prefix, name) =>
       eval(prefix, env) match {
         case LuaTable(m) => m(LuaStr(name)) = value
-        case _ => throw new EvalError("tried to index something that isn't a table")
+        case _ => throw new EvalError("tried to index something that isnt a table")
       }
   }
 
+  /**
+   * functioncall ::= prefixexp args | prefixexp ':' Name args
+   *
+   * Example: foo(x) or obj:method(x)
+   * Method syntax obj:method(x) passes obj as first arg (self)
+   * Function runs in child of its closure env not calling env
+   */
   def evalCall(call: FunctionCall, env: Env): List[LuaVal] = {
     // println(s"evalCall: ${call}")
     val func = call.method match {
@@ -243,6 +308,11 @@ object Eval {
     }
   }
 
+  /**
+   * unop ::= '-' | not | '#' | '~'
+   *
+   * Length # counts sequential integer keys from 1 for tables
+   */
   def evalUnop(op: String, v: LuaVal): LuaVal = op match {
     case "-" => LuaNum(-toNum(v))
     case "not" => LuaBool(!isTruthy(v))
@@ -259,6 +329,14 @@ object Eval {
     case _ => throw new EvalError(s"unknown unary op: $op")
   }
 
+  /**
+   * binop ::= '+' | '-' | '*' | '/' | '//' | '^' | '%' |
+   *           '&' | '~' | '|' | '>>' | '<<' | '..' |
+   *           '<' | '<=' | '>' | '>=' | '==' | '~=' |
+   *           and | or
+   *
+   * AND and OR return actual values: nil or 5 returns 5
+   */
   def evalBinop(l: Exp, op: String, r: Exp, env: Env): LuaVal = op match {
     // short circuit evaluation for and/or
     case "and" => if (!isTruthy(eval(l, env))) eval(l, env) else eval(r, env)
@@ -299,12 +377,37 @@ object Eval {
       }
   }
 
+  /**
+   * block ::= {stat} [retstat]
+   *
+   * Throws ReturnException on return, caught by evalCall
+   */
   def execBlock(block: Block, env: Env): Unit = {
     for (s <- block.stats) exec(s, env)
     block.retstat.foreach { ret =>
       throw new ReturnException(evalExpList(ret.explist, env))
     }
   }
+
+  /**
+   * Runs one Lua statement.
+   *
+   * Turns statements into actions
+   *
+   * A statement can change the program in different ways:
+   * - make new variables
+   * - change existing variables
+   * - call a function
+   * - run control flow (if, while, for)
+   * - open a new block with its own local variables
+   *
+   * This function checks what kind of statement it is
+   * and then runs the matching code for that kind
+   *
+   * Scoping rule:
+   * blocks, loops, and if elseif else parts run inside env.child(),
+   * so they get their own local variables but can still read outer ones.
+   */
 
   def exec(s: Stat, env: Env): Unit = s match {
     case LocalStat(names, exps) =>
@@ -445,16 +548,16 @@ object Eval {
 
     case DoStat(block) => execBlock(block, env.child())
     case BreakStat() => throw new BreakException()
-    case LabelStat(_) =>  // TODO: implement goto/labels
-    case GotoStat(_) =>   // TODO: implement goto/labels
   }
 
+  /** In Lua only nil and false are falsy, everything else is true */
   def isTruthy(v: LuaVal): Boolean = v match {
     case LuaNil => false
     case LuaBool(false) => false
     case _ => true
   }
 
+  /** Converts a value to number, strings can be converted too */
   def toNum(v: LuaVal): Double = v match {
     case LuaNum(n) => n
     case LuaStr(s) =>
@@ -476,6 +579,14 @@ object Eval {
     case _ => throw new EvalError("can only compare numbers with numbers or strings with strings")
   }
 
+  /**
+   * Compares two Lua values for equality.
+   *
+   * - For simple types (nil, boolean, number, string), checks if the values are the same.
+   * - For tables: two tables are equal only if they are the exact same object
+   *   Lua does not compare the contents of tables by default
+   * - All other combinations are considered unequal
+   */
   def isEqual(a: LuaVal, b: LuaVal): Boolean = (a, b) match {
     case (LuaNil, LuaNil) => true
     case (LuaBool(x), LuaBool(y)) => x == y
@@ -485,8 +596,7 @@ object Eval {
     case _ => false
   }
 
-  // TODO: metatables would go here
-
+  /** Creates root env with no parent, this is where global variables and builtins live */
   def makeGlobalEnv(): Env = {
     val env = new Env(mutable.Map(), None)
 

@@ -56,3 +56,8 @@ Generated:
 - rawset
 - setmetatable
 - getmetatable
+
+Not supported:
+- goto
+- coroutines
+- math.
