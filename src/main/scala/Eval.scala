@@ -82,7 +82,9 @@ object Eval {
       if (results.isEmpty) LuaNil else results.head
     case VarargExp() =>
       env.get("...") match {
-        case LuaTable(m) => m.getOrElse(LuaNum(1), LuaNil)
+        case LuaTable(m) =>
+          val key = LuaNum(1)
+          if (m.contains(key)) m(key) else LuaNil
         case _ => LuaNil
       }
   }
@@ -118,7 +120,8 @@ object Eval {
     // println("in evaltable")
     val map = mutable.Map[LuaVal, LuaVal]()
     var idx = 1
-    for ((f, fIdx) <- fields.zipWithIndex) {
+    var fIdx = 0
+    for (f <- fields) {
       val isLast = fIdx == fields.length - 1
       f match {
         case ExpKeyField(k, v) => map(eval(k, env)) = eval(v, env)
@@ -152,6 +155,7 @@ object Eval {
             idx += 1
           }
       }
+      fIdx += 1
     }
     LuaTable(map)
   }
@@ -160,12 +164,16 @@ object Eval {
     case NameVar(name) => env.get(name)
     case IndexVar(prefix, index) =>
       eval(prefix, env) match {
-        case LuaTable(m) => m.getOrElse(eval(index, env), LuaNil)
+        case LuaTable(m) =>
+          val key = eval(index, env)
+          if (m.contains(key)) m(key) else LuaNil
         case _ => LuaNil
       }
     case DotVar(prefix, name) =>
       eval(prefix, env) match {
-        case LuaTable(m) => m.getOrElse(LuaStr(name), LuaNil)
+        case LuaTable(m) =>
+          val key = LuaStr(name)
+          if (m.contains(key)) m(key) else LuaNil
         case _ => LuaNil
       }
   }
@@ -189,7 +197,9 @@ object Eval {
     val func = call.method match {
       case Some(method) =>
         eval(call.prefix, env) match {
-          case LuaTable(m) => m.getOrElse(LuaStr(method), LuaNil)
+          case LuaTable(m) =>
+            val key = LuaStr(method)
+            if (m.contains(key)) m(key) else LuaNil
           case _ => LuaNil
         }
       case None => eval(call.prefix, env)
@@ -206,13 +216,20 @@ object Eval {
       case LuaFunc(params, vararg, body, closure) =>
         val funcEnv = closure.child()
         // println("params " + params + " args " + args)
-        for ((p, i) <- params.zipWithIndex) {
-          funcEnv.define(p, if (i < args.length) args(i) else LuaNil)
+        var i = 0
+        for (p <- params) {
+          if (i < args.length) funcEnv.define(p, args(i))
+          else funcEnv.define(p, LuaNil)
+          i += 1
         }
         if (vararg) {
           val extra = args.drop(params.length)
           val vt = mutable.Map[LuaVal, LuaVal]()
-          for ((v, i) <- extra.zipWithIndex) vt(LuaNum(i + 1)) = v
+          var j = 0
+          for (v <- extra) {
+            vt(LuaNum(j + 1)) = v
+            j += 1
+          }
           funcEnv.define("...", LuaTable(vt))
         }
         try {
@@ -255,11 +272,16 @@ object Eval {
         case "*" => LuaNum(toNum(lv) * toNum(rv))
         case "/" => LuaNum(toNum(lv) / toNum(rv))
         case "//" => LuaNum(Math.floor(toNum(lv) / toNum(rv)))
-        // lua modulo is weird, not the same as % in most languages
+        // lua modulo is different from scala %
+        // had to look this up online
         case "%" =>
           val a = toNum(lv)
           val b = toNum(rv)
-          LuaNum(a - Math.floor(a / b) * b)
+          // first tried just a % b but that gave wrong results for negatives
+          val r = a % b
+          // this handles negative numbers correctly
+          if ((r > 0 && b < 0) || (r < 0 && b > 0)) LuaNum(r + b)
+          else LuaNum(r)
         case "^" => LuaNum(Math.pow(toNum(lv), toNum(rv)))
         case "<" => LuaBool(compare(lv, rv) < 0)
         case ">" => LuaBool(compare(lv, rv) > 0)
@@ -287,15 +309,21 @@ object Eval {
   def exec(s: Stat, env: Env): Unit = s match {
     case LocalStat(names, exps) =>
       val vals = evalExpList(exps, env)
-      for ((n, i) <- names.zipWithIndex) {
-        env.define(n, if (i < vals.length) vals(i) else LuaNil)
+      var i = 0
+      for (n <- names) {
+        if (i < vals.length) env.define(n, vals(i))
+        else env.define(n, LuaNil)
+        i += 1
       }
 
     case AssignStat(vars, exps) =>
       val vals = evalExpList(exps, env)
       // println(s"assign: $vars = $vals")
-      for ((v, i) <- vars.zipWithIndex) {
-        setVar(v, if (i < vals.length) vals(i) else LuaNil, env)
+      var i = 0
+      for (v <- vars) {
+        if (i < vals.length) setVar(v, vals(i), env)
+        else setVar(v, LuaNil, env)
+        i += 1
       }
 
     case FunctionCallStat(call) => evalCall(call, env)
@@ -336,7 +364,7 @@ object Eval {
       // println("fornum " + name)
       val s = toNum(eval(start, env))
       val e = toNum(eval(end, env))
-      val st = step.map(x => toNum(eval(x, env))).getOrElse(1.0)
+      val st = if (step.isDefined) toNum(eval(step.get, env)) else 1.0
       try {
         var i = s
         while ((st > 0 && i <= e) || (st < 0 && i >= e)) {
@@ -372,8 +400,11 @@ object Eval {
           else {
             ctrl = results.head
             val loopEnv = env.child()
-            for ((n, i) <- names.zipWithIndex) {
-              loopEnv.define(n, if (i < results.length) results(i) else LuaNil)
+            var i = 0
+            for (n <- names) {
+              if (i < results.length) loopEnv.define(n, results(i))
+              else loopEnv.define(n, LuaNil)
+              i += 1
             }
             execBlock(block, loopEnv)
           }
@@ -387,13 +418,17 @@ object Eval {
       } else {
         // handle foo.bar.baz = function or foo:method = function
         var table = env.get(funcName.names.head)
-        for (n <- funcName.names.tail.dropRight(if (funcName.method.isDefined) 0 else 1)) {
+        val rest = funcName.names.tail
+        val toIterate = if (funcName.method.isDefined) rest else rest.dropRight(1)
+        for (n <- toIterate) {
           table = table match {
-            case LuaTable(m) => m.getOrElse(LuaStr(n), LuaNil)
+            case LuaTable(m) =>
+              val key = LuaStr(n)
+              if (m.contains(key)) m(key) else LuaNil
             case _ => LuaNil
           }
         }
-        val lastName = funcName.method.getOrElse(funcName.names.last)
+        val lastName = if (funcName.method.isDefined) funcName.method.get else funcName.names.last
         table match {
           case LuaTable(m) =>
             val actualFunc = if (funcName.method.isDefined) {
@@ -422,7 +457,10 @@ object Eval {
 
   def toNum(v: LuaVal): Double = v match {
     case LuaNum(n) => n
-    case LuaStr(s) => s.toDoubleOption.getOrElse(throw new EvalError(s"can't convert '$s' to number"))
+    case LuaStr(s) =>
+      val parsed = s.toDoubleOption
+      if (parsed.isDefined) parsed.get
+      else throw new EvalError(s"can't convert '$s' to number")
     case _ => throw new EvalError("expected a number")
   }
 
@@ -458,7 +496,8 @@ object Eval {
     }))
 
     env.define("type", LuaBuiltin("type", args => {
-      val t = args.headOption.getOrElse(LuaNil) match {
+      val arg = if (args.length > 0) args(0) else LuaNil
+      val t = arg match {
         case LuaNil => "nil"
         case LuaBool(_) => "boolean"
         case LuaNum(_) => "number"
@@ -470,19 +509,27 @@ object Eval {
     }))
 
     env.define("tonumber", LuaBuiltin("tonumber", args => {
-      args.headOption match {
-        case Some(LuaNum(n)) => List(LuaNum(n))
-        case Some(LuaStr(s)) => s.toDoubleOption.map(n => List(LuaNum(n))).getOrElse(List(LuaNil))
-        case _ => List(LuaNil)
+      if (args.length == 0) {
+        List(LuaNil)
+      } else {
+        args(0) match {
+          case LuaNum(n) => List(LuaNum(n))
+          case LuaStr(s) =>
+            val parsed = s.toDoubleOption
+            if (parsed.isDefined) List(LuaNum(parsed.get)) else List(LuaNil)
+          case _ => List(LuaNil)
+        }
       }
     }))
 
     env.define("tostring", LuaBuiltin("tostring", args => {
-      List(LuaStr(args.headOption.getOrElse(LuaNil).show))
+      val arg = if (args.length > 0) args(0) else LuaNil
+      List(LuaStr(arg.show))
     }))
 
     env.define("error", LuaBuiltin("error", args => {
-      throw new EvalError(args.headOption.map(_.show).getOrElse("error"))
+      val msg = if (args.length > 0) args(0).show else "error"
+      throw new EvalError(msg)
     }))
 
     env
